@@ -113,21 +113,36 @@ Occurs when two concurrent transactions read the same data item, modify it local
 
 ---
 
-## MODULE 6: Distributed Operating Systems (DOS) & Protocols
+## MODULE 6: Distributed Operating Systems (DOS), APIs & Message Passing
 
-### 1. DOS vs. Network Operating System (NOS)
-* **DOS**: Presents a **single-system image** across multiple machines. Location of processors and RAM is completely transparent.
-* **NOS**: Collection of standalone autonomous computers on a network (users are aware of distinct machine locations).
+### 1. APIs for Distributed Application Development
+An **Application Programming Interface (API)** provides abstractions and protocols enabling distributed components to interact:
+* **REST APIs**: Standard HTTP/HTTPS communication using JSON or XML over web microservices.
+* **gRPC**: High-performance, low-latency framework utilizing HTTP/2 and binary Protocol Buffers.
+* **Java RMI APIs**: Object-oriented remote method invocations across Java Virtual Machines (JVMs).
+* **MPI APIs**: Message Passing Interface standard for HPC supercomputing clusters.
 
-### 2. System Transparencies
-* **Access Transparency**: Local and remote resources accessed using identical operations.
-* **Location Transparency**: Accessing resources without knowing physical network location.
-* **Replication Transparency**: Multiple resource copies managed without user awareness.
-* **Failure Transparency**: Hiding faults so system recovers automatically.
+### 2. Message Passing Semantics
+* **Synchronous Send (Blocking)**: Sender blocks until the recipient accepts the message. Ensures strong temporal synchronization.
+* **Asynchronous Send (Non-blocking)**: Sender copies message to a local/kernel buffer and resumes execution immediately.
+* **Blocking Receive**: Receiver waits in a blocked state until a message arrives in the queue/socket.
+* **Non-blocking Receive**: Receiver queries the buffer; returns immediately with a status flag if empty.
+* **Direct vs Indirect Messaging**:
+  * *Direct*: Explicit process destination IDs (`send(Process_B, msg)`).
+  * *Indirect*: Messages sent via intermediate mailboxes, ports, or message queues (RabbitMQ, Kafka).
 
-### 3. Transport Protocols
-* **TCP**: Connection-oriented, reliable, ordered stream, flow control.
-* **UDP**: Connectionless, lightweight, unordered, zero overhead (ideal for video/audio streaming).
+### 3. MPI (Message Passing Interface) for HPC Clusters
+De facto standard for distributed memory cluster parallel programming. Key primitives:
+* `MPI_Init()` & `MPI_Finalize()`: Initializes and terminates the MPI execution context.
+* `MPI_Comm_rank()`: Retrieves unique process ID (rank).
+* `MPI_Send()` & `MPI_Recv()`: Point-to-point blocking communication primitives.
+* `MPI_Bcast()`: One-to-all collective broadcast.
+* `MPI_Reduce()`: Combines distributed arrays across processes (SUM, MIN, MAX).
+
+### 4. Socket API Communication
+A **Socket** represents a network endpoint identified by `(IP Address : Port Number)`.
+* **TCP Stream Sockets**: Connection-oriented, reliable, ordered stream, error-checked.
+* **UDP Datagram Sockets**: Connectionless, lightweight, unordered, zero connection overhead.
 
 ---
 

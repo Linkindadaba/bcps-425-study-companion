@@ -47,7 +47,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Sidebar Navigation (Removed "Deploy Online")
+# Sidebar Navigation
 st.sidebar.title("🎓 Course Navigation")
 st.sidebar.caption("Sunyani Technical University (STU) — BCPS 425")
 
@@ -55,6 +55,7 @@ page = st.sidebar.radio(
     "Select Module or Tool:",
     [
         "🏠 Home & Course Overview",
+        "📡 Distributed APIs & Message Passing (MPI, Sockets, IPC)",
         "⚡ Amdahl's Law & Speedup Calculator",
         "🔒 Deadlock & Coffman Conditions Simulator",
         "🔄 CPU Scheduling Simulator (RR vs SJF)",
@@ -150,7 +151,7 @@ if page == "🏠 Home & Course Overview":
     col_a, col_b = st.columns(2)
     with col_a:
         st.info("⚡ **Unit 1: HPC & Parallel Architecture**\n- Speedup, Amdahl's Law, Flynn's Taxonomy (SISD, SIMD, MIMD).")
-        st.info("🏗️ **Unit 2: System Architectures**\n- 2-Tier vs 3-Tier Architecture, Web Services (WSDL, UDDI, SOAP/REST).")
+        st.info("🏗️ **Unit 2: System Architectures & APIs**\n- 2-Tier vs 3-Tier, Web Services (WSDL, UDDI, REST), Message Passing (MPI, Sockets).")
         st.info("🔒 **Unit 3: Concurrency & Deadlocks**\n- Critical Sections, Lost Update Problem, 4 Coffman Conditions, Banker's Algorithm.")
         st.info("🔄 **Unit 4: Process Scheduling**\n- Round Robin (RR - quantum, fair) vs Shortest Job First (SJF - minimum wait time).")
 
@@ -161,7 +162,109 @@ if page == "🏠 Home & Course Overview":
         st.success("☁️ **Unit 8: Cloud Computing & Security**\n- IaaS, PaaS, SaaS, Virtualization, Authentication vs Authorization vs Encryption.")
 
 # ----------------------------------------------------
-# PAGE 2: AMDAHL'S LAW CALCULATOR
+# PAGE 2: DISTRIBUTED APIS & MESSAGE PASSING
+# ----------------------------------------------------
+elif page == "📡 Distributed APIs & Message Passing (MPI, Sockets, IPC)":
+    st.title("📡 Distributed Application APIs & Message Passing Primitives")
+    st.write("Understand APIs, interprocess communication (IPC) abstractions, and message passing paradigms used in parallel and distributed systems.")
+
+    t_api1, t_api2, t_api3, t_api4 = st.tabs([
+        "1. Distributed APIs (REST, gRPC, RMI, MPI)",
+        "2. Message Passing Semantics (Sync vs Async)",
+        "3. MPI (Message Passing Interface) for HPC",
+        "4. Socket Programming API (TCP vs UDP)"
+    ])
+
+    with t_api1:
+        st.subheader("APIs for Distributed Application Development")
+        st.write("An **Application Programming Interface (API)** provides standard protocols and tools for software components to communicate across networks.")
+        
+        st.markdown("""
+        | Distributed API | Transport Protocol | Data Format | Common Use Cases |
+        | :--- | :--- | :--- | :--- |
+        | **REST API** | HTTP / HTTPS | JSON, XML | Web applications, microservices, mobile backends |
+        | **gRPC** | HTTP/2 | Protocol Buffers (Binary) | High-performance microservices, low-latency IPC |
+        | **Java RMI** | JRMP / TCP | Serialized Java Objects | Object-oriented Java distributed applications |
+        | **SOAP Web Services** | HTTP / SMTP | XML (WSDL / UDDI) | Enterprise banking and legacy web integration |
+        | **MPI API** | Infiniband / TCP | Raw Bytes / C/C++ Structs | Supercomputing clusters, HPC parallel simulations |
+        """)
+
+    with t_api2:
+        st.subheader("Message Passing Communication Semantics")
+        col_m1, col_m2 = st.columns(2)
+        
+        with col_m1:
+            st.markdown("### Synchronous vs Asynchronous Send")
+            st.write("• **Synchronous Send (Blocking)**: The sending process blocks (waits) until the receiving process accepts the message. Ensures strict synchronization.")
+            st.write("• **Asynchronous Send (Non-blocking)**: The sending process hands the message to a buffer and immediately resumes execution without waiting.")
+
+        with col_m2:
+            st.markdown("### Blocking vs Non-Blocking Receive")
+            st.write("• **Blocking Receive**: Receiver blocks until a message arrives in the queue/socket.")
+            st.write("• **Non-Blocking Receive**: Receiver checks if a message is available; if not, returns immediately with a control flag.")
+
+        st.markdown("---")
+        st.markdown("### Direct vs Indirect Messaging")
+        st.write("• **Direct Messaging**: Processes explicitly specify recipient process ID: `send(Process_B, message)`.")
+        st.write("• **Indirect Messaging**: Messages are sent to intermediate entities (Mailboxes, Topics, Ports, Message Queues like RabbitMQ or Apache Kafka).")
+
+    with t_api3:
+        st.subheader("MPI (Message Passing Interface) for High Performance Computing")
+        st.write("MPI is the de facto standard message passing API for distributed memory supercomputers and computer clusters.")
+
+        st.code("""// Example C MPI Code for Parallel Cluster Computation
+#include <mpi.h>
+#include <stdio.h>
+
+int main(int argc, char** argv) {
+    MPI_Init(&argc, &argv); // Initialize MPI environment
+
+    int world_rank, world_size;
+    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank); // Get ID of process
+    MPI_Comm_size(MPI_COMM_WORLD, &world_size); // Get total process count
+
+    if (world_rank == 0) {
+        int data = 100;
+        MPI_Send(&data, 1, MPI_INT, 1, 0, MPI_COMM_WORLD); // Point-to-point send
+        printf("Process 0 sent data %d to Process 1\\n", data);
+    } else if (world_rank == 1) {
+        int received_data;
+        MPI_Recv(&received_data, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        printf("Process 1 received data %d from Process 0\\n", received_data);
+    }
+
+    MPI_Finalize(); // Terminate MPI environment
+    return 0;
+}""", language="c")
+
+        st.markdown("""
+        **Core MPI Primitives to Know for the Exam:**
+        * `MPI_Init()` & `MPI_Finalize()`: Initializes and terminates the MPI parallel execution context.
+        * `MPI_Comm_rank()`: Identifies the unique integer rank (ID) of the calling process.
+        * `MPI_Send()` & `MPI_Recv()`: Blocking point-to-point communication calls.
+        * `MPI_Bcast()`: Collective broadcast of data from 1 process to all processes in communicator.
+        * `MPI_Reduce()`: Collective reduction operation (combining arrays via SUM, MIN, MAX).
+        """)
+
+    with t_api4:
+        st.subheader("Socket Programming API (TCP Stream vs UDP Datagram)")
+        st.write("A **Socket** is an abstraction representing an endpoint of communication identified by `(IP Address : Port Number)`.")
+
+        col_s1, col_s2 = st.columns(2)
+        with col_s1:
+            st.markdown("### Stream Sockets (TCP)")
+            st.write("• **Connection-Oriented**: Requires establishing a 3-way handshake before data transfer.")
+            st.write("• **Reliable**: Guarantees ordered, loss-free byte stream transmission via retransmissions.")
+            st.write("• **Socket Calls**: `socket()`, `bind()`, `listen()`, `accept()`, `connect()`, `send()`, `recv()`.")
+
+        with col_s2:
+            st.markdown("### Datagram Sockets (UDP)")
+            st.write("• **Connectionless**: Datagrams sent independently without prior connection setup.")
+            st.write("• **Unreliable & Fast**: No retransmission, ordering, or flow control overhead.")
+            st.write("• **Socket Calls**: `socket()`, `bind()`, `sendto()`, `recvfrom()`.")
+
+# ----------------------------------------------------
+# PAGE 3: AMDAHL'S LAW CALCULATOR
 # ----------------------------------------------------
 elif page == "⚡ Amdahl's Law & Speedup Calculator":
     st.title("⚡ Interactive Speedup & Amdahl's Law Calculator")
@@ -194,7 +297,7 @@ elif page == "⚡ Amdahl's Law & Speedup Calculator":
         st.write(r"• **Key Takeaway**: Even with infinite processors ($p \rightarrow \infty$), speedup is strictly capped by the serial fraction $\frac{1}{1-f}$.")
 
 # ----------------------------------------------------
-# PAGE 3: DEADLOCK SIMULATOR
+# PAGE 4: DEADLOCK SIMULATOR
 # ----------------------------------------------------
 elif page == "🔒 Deadlock & Coffman Conditions Simulator":
     st.title("🔒 Deadlock & Coffman Conditions Simulator")
@@ -211,7 +314,7 @@ elif page == "🔒 Deadlock & Coffman Conditions Simulator":
         st.success("✅ NO DEADLOCK. At least one Coffman condition is broken.")
 
 # ----------------------------------------------------
-# PAGE 4: CPU SCHEDULING SIMULATOR
+# PAGE 5: CPU SCHEDULING SIMULATOR
 # ----------------------------------------------------
 elif page == "🔄 CPU Scheduling Simulator (RR vs SJF)":
     st.title("🔄 CPU Scheduling Algorithm Simulator")
@@ -233,7 +336,7 @@ elif page == "🔄 CPU Scheduling Simulator (RR vs SJF)":
         st.write("• **Pros**: Minimizes average waiting time.")
 
 # ----------------------------------------------------
-# PAGE 5: JAVA RMI EXPLORER
+# PAGE 6: JAVA RMI EXPLORER
 # ----------------------------------------------------
 elif page == "☕ Java RMI & RPC Architecture Explorer":
     st.title("☕ Java RMI Code Explorer")
@@ -283,7 +386,7 @@ public class Client {
 }""", language="java")
 
 # ----------------------------------------------------
-# PAGE 6: DISTRIBUTED ALGORITHMS
+# PAGE 7: DISTRIBUTED ALGORITHMS
 # ----------------------------------------------------
 elif page == "🌐 Distributed Algorithms & Protocols (2PC, Election, Clocks)":
     st.title("🌐 Distributed Algorithms & Coordination Protocols")
@@ -309,7 +412,7 @@ elif page == "🌐 Distributed Algorithms & Protocols (2PC, Election, Clocks)":
         st.write(r"• On receiving message with timestamp $t$: $L = \max(L, t) + 1$.")
 
 # ----------------------------------------------------
-# PAGE 7: TEXTBOOK QA
+# PAGE 8: TEXTBOOK QA
 # ----------------------------------------------------
 elif page == "💡 Textbook Q&A Bank (Coulouris)":
     st.title("💡 Coulouris Textbook Solution Q&A Bank")
@@ -329,7 +432,7 @@ elif page == "💡 Textbook Q&A Bank (Coulouris)":
                 st.write(ans_text)
 
 # ----------------------------------------------------
-# PAGE 8: PAST PAPER
+# PAGE 9: PAST PAPER
 # ----------------------------------------------------
 elif page == "📝 STU 2023/2024 Solved Past Exam Paper":
     st.title("📝 STU 2023/2024 End of Semester Solved Exam Paper")
@@ -344,7 +447,7 @@ elif page == "📝 STU 2023/2024 Solved Past Exam Paper":
         st.write("Parallel: single machine, shared memory, bus. Distributed: multiple machines, disjoint RAM, network sockets.")
 
 # ----------------------------------------------------
-# PAGE 9: 40-QUESTION PRACTICE QUIZ ENGINE (10 SETS)
+# PAGE 10: 40-QUESTION PRACTICE QUIZ ENGINE
 # ----------------------------------------------------
 elif page == "🧠 40-Question Practice Quiz Engine (10 Sets)":
     st.title("🧠 40-Question Practice Quiz Engine")
