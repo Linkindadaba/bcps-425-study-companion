@@ -8,124 +8,131 @@ import random
 # Page Configuration
 st.set_page_config(
     page_title="BCPS 425: Parallel & Distributed Computing Companion",
-    page_icon="🎓",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom Styling
+# Custom Styling - Professional Corporate / Academic Layout
 st.markdown("""
     <style>
     .main-title {
-        font-size: 2.2rem;
-        font-weight: 800;
-        background: linear-gradient(90deg, #0284c7, #6366f1);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 5px;
+        font-size: 2.1rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 4px;
+        letter-spacing: -0.5px;
+    }
+    .dark-main-title {
+        font-size: 2.1rem;
+        font-weight: 700;
+        color: #38bdf8;
+        margin-bottom: 4px;
+        letter-spacing: -0.5px;
     }
     .sub-title {
         color: #64748b;
-        font-size: 1rem;
-        margin-bottom: 20px;
+        font-size: 0.95rem;
+        margin-bottom: 18px;
     }
-    .highlight-box {
-        background-color: #1e1b4b;
-        border-left: 4px solid #6366f1;
-        padding: 15px 20px;
-        border-radius: 8px;
-        margin: 15px 0;
-        color: #e2e8f0;
-    }
-    .quiz-card {
-        background-color: #0f172a;
+    .academic-card {
+        background-color: #1e293b;
         border: 1px solid #334155;
-        border-radius: 12px;
+        border-radius: 8px;
         padding: 20px;
-        margin-bottom: 20px;
+        margin-bottom: 18px;
+        color: #f8fafc;
+    }
+    .info-box {
+        background-color: #0f172a;
+        border-left: 4px solid #0284c7;
+        padding: 14px 18px;
+        border-radius: 4px;
+        margin: 12px 0;
+        color: #cbd5e1;
+        font-size: 0.92rem;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# Sidebar Navigation
-st.sidebar.title("🎓 Course Navigation")
-st.sidebar.caption("Sunyani Technical University (STU) — BCPS 425")
+# Sidebar Navigation (Clean Professional Text Only)
+st.sidebar.title("BCPS 425 Modules")
+st.sidebar.caption("Sunyani Technical University — Department of Computer Science")
 
 page = st.sidebar.radio(
-    "Select Module or Tool:",
+    "Select Section:",
     [
-        "🏠 Home & Course Overview",
-        "📡 Distributed APIs & Message Passing (MPI, Sockets, IPC)",
-        "⚡ Amdahl's Law & Speedup Calculator",
-        "🔒 Deadlock & Coffman Conditions Simulator",
-        "🔄 CPU Scheduling Simulator (RR vs SJF)",
-        "☕ Java RMI & RPC Architecture Explorer",
-        "🌐 Distributed Algorithms & Protocols (2PC, Election, Clocks)",
-        "💡 Textbook Q&A Bank (Coulouris)",
-        "📝 STU 2023/2024 Solved Past Exam Paper",
-        "🧠 40-Question Practice Quiz Engine (10 Sets)"
+        "1. Course Overview & Curriculum Focus",
+        "2. Distributed APIs & Message Passing (MPI, Sockets)",
+        "3. Speedup & Amdahl's Law Calculator",
+        "4. Deadlock & Coffman Conditions Simulator",
+        "5. CPU Scheduling Simulator (RR vs SJF)",
+        "6. Java RMI & RPC Architecture",
+        "7. Distributed Coordination Algorithms (2PC, Election, Clocks)",
+        "8. Textbook Solution Q&A Bank (Coulouris)",
+        "9. STU 2023/2024 End of Semester Exam Solutions",
+        "10. Examination Practice Quiz Engine (10 Sets)"
     ]
 )
 
 # ----------------------------------------------------
-# 40-QUESTION MCQ QUESTION BANK
+# 40-QUESTION MCQ QUESTION BANK (Clean Text)
 # ----------------------------------------------------
 MCQ_BANK = [
-    # Set 1: Parallel & HPC
+    # Set 1
     {"q": "1. In Flynn's Taxonomy, modern Graphics Processing Units (GPUs) belong to which classification?", "opts": ["SISD", "SIMD", "MISD", "MIMD"], "ans": 1, "exp": "GPUs execute a Single Instruction across Multiple Data streams simultaneously (SIMD)."},
     {"q": "2. What limits the theoretical maximum speedup according to Amdahl's Law even with infinite processors?", "opts": ["Number of cores", "The strictly sequential fraction (1 - f)", "Network latency", "RAM size"], "ans": 1, "exp": "Amdahl's Law proves speedup S(p) is capped at 1/(1-f) by the serial fraction."},
     {"q": "3. Which parallel architecture features shared memory accessible by all processors in a single machine?", "opts": ["Tightly Coupled / SMP", "Distributed Memory Cluster", "Grid System", "Peer-to-Peer"], "ans": 0, "exp": "Symmetric Multiprocessing (SMP) uses shared physical RAM across processors."},
     {"q": "4. What is the formula for speedup S(p) given execution time T1 on 1 processor and Tp on p processors?", "opts": ["S(p) = T1 * Tp", "S(p) = T1 / Tp", "S(p) = Tp / T1", "S(p) = T1 + Tp"], "ans": 1, "exp": "Speedup is defined as execution time on 1 core divided by execution time on p cores."},
 
-    # Set 2: 3-Tier Architecture
+    # Set 2
     {"q": "5. In a 3-tier architecture, where is the primary business logic implemented?", "opts": ["Presentation Layer (Tier 1)", "Application Layer (Tier 2)", "Data Layer (Tier 3)", "Client Web Browser"], "ans": 1, "exp": "Tier 2 contains the application servers executing business logic and rules."},
     {"q": "6. Which layer in a 3-tier system directly handles database persistence?", "opts": ["Presentation Layer", "Logic Layer", "Data Layer (Tier 3)", "Session Layer"], "ans": 2, "exp": "Tier 3 consists of RDBMS or cloud storage storing persistent data."},
     {"q": "7. What is a key security advantage of 3-tier architecture over 2-tier architecture?", "opts": ["No passwords needed", "Database is isolated on a private subnet behind app servers", "Client handles encryption", "Removes TCP/IP"], "ans": 1, "exp": "The database is shielded from direct public internet calls by Tier 2 servers."},
     {"q": "8. Web service registration and lookup in SOAP architectures uses which specification?", "opts": ["WSDL", "UDDI", "REST", "JSON"], "ans": 1, "exp": "Universal Description, Discovery and Integration (UDDI) acts as the service registry."},
 
-    # Set 3: Concurrency & Lost Update
+    # Set 3
     {"q": "9. What causes the Lost Update Problem in concurrent applications?", "opts": ["Unencrypted traffic", "Two transactions reading identical data and both writing back", "Network disconnection", "Deadlock avoidance"], "ans": 1, "exp": "The second transaction overwrites the first transaction's modifications."},
     {"q": "10. Which locking strategy acquires exclusive locks on data before reading or updating?", "opts": ["Optimistic Concurrency Control", "Pessimistic Locking", "Round Robin", "Bully Algorithm"], "ans": 1, "exp": "Pessimistic locking uses SELECT ... FOR UPDATE to lock rows during reading."},
     {"q": "11. A section of code that accesses shared resources and must not be concurrently executed is called:", "opts": ["Critical Section", "Deadlock Zone", "Parallel Region", "Buffer Queue"], "ans": 0, "exp": "Critical Sections require mutual exclusion to prevent data corruption."},
     {"q": "12. Optimistic Concurrency Control handles conflicts using:", "opts": ["Exclusive locks", "Version numbers or timestamps", "Process termination", "CPU quantum"], "ans": 1, "exp": "Optimistic control checks if version numbers changed before committing."},
 
-    # Set 4: Deadlocks
+    # Set 4
     {"q": "13. How many Coffman conditions must hold simultaneously for a deadlock to exist?", "opts": ["At least 1", "Exactly 2", "Exactly 3", "All 4"], "ans": 3, "exp": "All 4 Coffman conditions must hold simultaneously for a deadlock to occur."},
     {"q": "14. Which deadlock strategy breaks a Coffman condition structurally before execution?", "opts": ["Deadlock Avoidance", "Deadlock Prevention", "Deadlock Recovery", "Victim Selection"], "ans": 1, "exp": "Prevention enforces rules (e.g. global resource ordering) to eliminate a condition."},
     {"q": "15. Dijkstra's Banker's Algorithm is an example of which deadlock handling approach?", "opts": ["Deadlock Prevention", "Deadlock Avoidance", "Deadlock Detection", "Preemption"], "ans": 1, "exp": "Avoidance dynamically evaluates requests to guarantee the system stays in a Safe State."},
     {"q": "16. Circular Wait is eliminated by enforcing which resource policy?", "opts": ["Preemption", "Total numeric ordering on resource requests", "Unlimited RAM", "Time slicing"], "ans": 1, "exp": "Requiring processes to request resources in strictly increasing order prevents cycles."},
 
-    # Set 5: CPU Scheduling
+    # Set 5
     {"q": "17. Which scheduling algorithm guarantees zero starvation for all processes?", "opts": ["Shortest Job First (SJF)", "Priority Scheduling", "Round Robin (RR)", "LIFO"], "ans": 2, "exp": "Round Robin assigns a fixed quantum in FIFO order, preventing starvation."},
     {"q": "18. Shortest Job First (SJF) scheduling is optimal for minimizing:", "opts": ["CPU utilization", "Average waiting time", "Context switches", "Starvation risk"], "ans": 1, "exp": "SJF mathematically yields the lowest average waiting time for a set of processes."},
     {"q": "19. Preemptive version of Shortest Job First is known as:", "opts": ["Round Robin", "Shortest Remaining Time First (SRTF)", "FCFS", "Multilevel Queue"], "ans": 1, "exp": "SRTF preempts the running process if a new process arrives with shorter remaining time."},
     {"q": "20. What is a major drawback of a very small time quantum in Round Robin scheduling?", "opts": ["Starvation", "High context-switching overhead", "Deadlock", "Long wait times"], "ans": 1, "exp": "Too small a quantum causes the CPU to waste time performing context switches."},
 
-    # Set 6: Distributed OS & Transparencies
+    # Set 6
     {"q": "21. A Distributed Operating System (DOS) provides users with:", "opts": ["Multiple login prompts", "A single-system image", "Manual node IP configuration", "No file sharing"], "ans": 1, "exp": "DOS hides physical node separation, presenting a unified single system image."},
     {"q": "22. Accessing local and remote resources using identical operations is called:", "opts": ["Location Transparency", "Access Transparency", "Failure Transparency", "Replication Transparency"], "ans": 1, "exp": "Access transparency masks differences in data representation and resource access."},
     {"q": "23. Concealing resource physical network location from users is known as:", "opts": ["Location Transparency", "Migration Transparency", "Concurrency Transparency", "Relocation Transparency"], "ans": 0, "exp": "Location transparency allows accessing resources without knowing their IP or server path."},
     {"q": "24. Which transport protocol provides reliable, ordered stream delivery with flow control?", "opts": ["UDP", "IP", "TCP", "ICMP"], "ans": 2, "exp": "Transmission Control Protocol (TCP) guarantees reliable, in-order delivery."},
 
-    # Set 7: Java RMI & Remote Invocation
+    # Set 7
     {"q": "25. Which object acts as the client-side proxy in Java RMI?", "opts": ["Skeleton", "Stub", "Registry", "Dispatcher"], "ans": 1, "exp": "The Stub intercepts client calls, marshals arguments, and transmits network requests."},
     {"q": "26. Methods defined in a Java RMI Remote Interface MUST declare which exception?", "opts": ["NullPointerException", "RemoteException", "ClassNotFoundException", "IOException"], "ans": 1, "exp": "Every remote method must throw java.rmi.RemoteException to handle network faults."},
     {"q": "27. In Java RMI, how are non-remote serializable object arguments passed?", "opts": ["By Reference", "By Value (Deep Copy)", "By Address", "By Pointer"], "ans": 1, "exp": "Non-remote objects implementing Serializable are copied and passed by value."},
     {"q": "28. What RMI invocation semantic guarantees 0 or 1 execution using reply history filtering?", "opts": ["Maybe", "At-Least-Once", "At-Most-Once", "Exactly-Never"], "ans": 2, "exp": "At-Most-Once filters duplicates at the server to execute at most once."},
 
-    # Set 8: Distributed Algorithms
+    # Set 8
     {"q": "29. In the Bully Election Algorithm, which process becomes the new leader upon crash detection?", "opts": ["Process with the smallest ID", "Process with the highest ID", "Random process", "First process to respond"], "ans": 1, "exp": "The Bully algorithm elects the active process with the highest process ID."},
     {"q": "30. The Two-Phase Commit Protocol (2PC) guarantees which property in distributed transactions?", "opts": ["Eventual Consistency", "Atomicity (All-or-Nothing commit)", "High Availability", "Zero Latency"], "ans": 1, "exp": "2PC ensures all participating nodes either commit or abort the transaction together."},
     {"q": "31. Lamport Logical Clocks use logical timestamps to define which relationship between events?", "opts": ["Absolute Universal Time", "Happened-Before relation (->)", "CPU Clock Speed", "Round Trip Time"], "ans": 1, "exp": "Lamport timestamps establish partial ordering based on causality (a -> b)."},
     {"q": "32. In 2PC, what action does the Coordinator take if any participant responds with VOTE_ABORT?", "opts": ["Commit anyway", "Sends GLOBAL_ABORT to all nodes", "Waits 1 hour", "Terminates coordinator"], "ans": 1, "exp": "If any node votes abort, the coordinator enforces a global abort across all nodes."},
 
-    # Set 9: Cloud & Security
+    # Set 9
     {"q": "33. Cloud service model providing virtualized compute, raw storage, and networking is:", "opts": ["SaaS", "PaaS", "IaaS", "FaaS"], "ans": 2, "exp": "Infrastructure as a Service (IaaS) supplies raw virtual machines and storage."},
     {"q": "34. Verifying the identity of a user or system is defined as:", "opts": ["Authorization", "Authentication", "Encryption", "Auditing"], "ans": 1, "exp": "Authentication verifies WHO a user is (e.g. passwords, 2FA)."},
     {"q": "35. Technology enabling multiple virtual machines with distinct OS instances on one physical host:", "opts": ["Hypervisor / Virtualization", "Compiler", "Load Balancer", "DNS"], "ans": 0, "exp": "Hypervisors (KVM, VMware) manage virtual machine hardware abstractions."},
     {"q": "36. Active Redundancy for fault tolerance differs from Passive Redundancy because:", "opts": ["All redundant nodes process requests in parallel", "Only 1 node is powered on", "Backup node takes 2 hours", "No backups used"], "ans": 0, "exp": "Active redundancy processes requests across all nodes simultaneously for instant failover."},
 
-    # Set 10: Textbook & Code Scenarios
+    # Set 10
     {"q": "37. Is appending data to a file an idempotent operation?", "opts": ["Yes", "No", "Only on Linux", "Only with TCP"], "ans": 1, "exp": "No. Appending extends file length on each execution. Writing to a fixed offset IS idempotent."},
     {"q": "38. Why does CORBA CDR lack explicit data-type tags compared to XML?", "opts": ["XML is faster", "CORBA relies on pre-compiled IDL files shared by client and server", "CDR is text based", "XML has no tags"], "ans": 1, "exp": "Shared IDL schemas allow CORBA CDR to transmit compact binary data without type tags."},
     {"q": "39. What is the role of the RMI Registry in Java RMI applications?", "opts": ["Executes business logic", "Bootstrap naming lookup mapping strings to remote object stubs", "Encrypts network traffic", "Allocates CPU RAM"], "ans": 1, "exp": "The RMI Registry maps logical names (e.g. 'ComputeService') to remote stubs."},
@@ -135,38 +142,38 @@ MCQ_BANK = [
 # ----------------------------------------------------
 # PAGE 1: HOME
 # ----------------------------------------------------
-if page == "🏠 Home & Course Overview":
-    st.markdown('<h1 class="main-title">BCPS 425: Parallel & Distributed Computing</h1>', unsafe_allow_html=True)
-    st.markdown('<p class="sub-title">Sunyani Technical University (STU) — Department of Computer Science</p>', unsafe_allow_html=True)
+if page == "1. Course Overview & Curriculum Focus":
+    st.markdown('<h1 class="dark-main-title">BCPS 425: Parallel and Distributed Computing</h1>', unsafe_allow_html=True)
+    st.markdown('<p class="sub-title">Sunyani Technical University — Department of Computer Science</p>', unsafe_allow_html=True)
 
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("Course Code", "BCPS 425")
-    c2.metric("Credits", "3 Credits")
-    c3.metric("Exam Time", "2½ Hours")
-    c4.metric("Total Marks", "60 Marks")
+    c2.metric("Academic Credits", "3 Credits")
+    c3.metric("Examination Duration", "2.5 Hours")
+    c4.metric("Total Evaluation Marks", "60 Marks")
 
     st.markdown("---")
-    st.subheader("📚 Module Breakdown & Exam Focus Areas")
+    st.subheader("Curriculum Structure & Focus Areas")
     
     col_a, col_b = st.columns(2)
     with col_a:
-        st.info("⚡ **Unit 1: HPC & Parallel Architecture**\n- Speedup, Amdahl's Law, Flynn's Taxonomy (SISD, SIMD, MIMD).")
-        st.info("🏗️ **Unit 2: System Architectures & APIs**\n- 2-Tier vs 3-Tier, Web Services (WSDL, UDDI, REST), Message Passing (MPI, Sockets).")
-        st.info("🔒 **Unit 3: Concurrency & Deadlocks**\n- Critical Sections, Lost Update Problem, 4 Coffman Conditions, Banker's Algorithm.")
-        st.info("🔄 **Unit 4: Process Scheduling**\n- Round Robin (RR - quantum, fair) vs Shortest Job First (SJF - minimum wait time).")
+        st.info("**Unit 1: HPC & Parallel Architecture**\n- Speedup, Amdahl's Law, Flynn's Taxonomy (SISD, SIMD, MIMD).")
+        st.info("**Unit 2: System Architectures & APIs**\n- 2-Tier vs 3-Tier, Web Services (WSDL, UDDI, REST), Message Passing (MPI, Sockets).")
+        st.info("**Unit 3: Concurrency & Deadlocks**\n- Critical Sections, Lost Update Problem, 4 Coffman Conditions, Banker's Algorithm.")
+        st.info("**Unit 4: Process Scheduling**\n- Round Robin (RR - quantum, fair) vs Shortest Job First (SJF - minimum wait time).")
 
     with col_b:
-        st.success("☕ **Unit 5: Remote Method Invocation (Java RMI)**\n- Remote Interface, Remote Object, Client Stub, Server Skeleton, RMI Registry.")
-        st.success("🌐 **Unit 6: Distributed Algorithms**\n- 2-Phase Commit (2PC), Bully Election Algorithm, Lamport Logical Clocks.")
-        st.success("🌐 **Unit 7: Distributed OS & Protocols**\n- Single System Image, Transparencies (Access, Location), TCP vs UDP.")
-        st.success("☁️ **Unit 8: Cloud Computing & Security**\n- IaaS, PaaS, SaaS, Virtualization, Authentication vs Authorization vs Encryption.")
+        st.success("**Unit 5: Remote Method Invocation (Java RMI)**\n- Remote Interface, Remote Object, Client Stub, Server Skeleton, RMI Registry.")
+        st.success("**Unit 6: Distributed Algorithms**\n- 2-Phase Commit (2PC), Bully Election Algorithm, Lamport Logical Clocks.")
+        st.success("**Unit 7: Distributed OS & Protocols**\n- Single System Image, Transparencies (Access, Location), TCP vs UDP.")
+        st.success("**Unit 8: Cloud Computing & Security**\n- IaaS, PaaS, SaaS, Virtualization, Authentication vs Authorization vs Encryption.")
 
 # ----------------------------------------------------
 # PAGE 2: DISTRIBUTED APIS & MESSAGE PASSING
 # ----------------------------------------------------
-elif page == "📡 Distributed APIs & Message Passing (MPI, Sockets, IPC)":
-    st.title("📡 Distributed Application APIs & Message Passing Primitives")
-    st.write("Understand APIs, interprocess communication (IPC) abstractions, and message passing paradigms used in parallel and distributed systems.")
+elif page == "2. Distributed APIs & Message Passing (MPI, Sockets)":
+    st.title("Distributed Application APIs & Message Passing Primitives")
+    st.write("Overview of APIs, interprocess communication (IPC) abstractions, and message passing paradigms used in parallel and distributed systems.")
 
     t_api1, t_api2, t_api3, t_api4 = st.tabs([
         "1. Distributed APIs (REST, gRPC, RMI, MPI)",
@@ -177,7 +184,7 @@ elif page == "📡 Distributed APIs & Message Passing (MPI, Sockets, IPC)":
 
     with t_api1:
         st.subheader("APIs for Distributed Application Development")
-        st.write("An **Application Programming Interface (API)** provides standard protocols and tools for software components to communicate across networks.")
+        st.write("An Application Programming Interface (API) provides standard protocols and abstractions enabling distributed components to interact across networks.")
         
         st.markdown("""
         | Distributed API | Transport Protocol | Data Format | Common Use Cases |
@@ -238,9 +245,9 @@ int main(int argc, char** argv) {
 }""", language="c")
 
         st.markdown("""
-        **Core MPI Primitives to Know for the Exam:**
+        **Core MPI Primitives:**
         * `MPI_Init()` & `MPI_Finalize()`: Initializes and terminates the MPI parallel execution context.
-        * `MPI_Comm_rank()`: Identifies the unique integer rank (ID) of the calling process.
+        * `MPI_Comm_rank()`: Retrieves the unique rank (ID) of the calling process.
         * `MPI_Send()` & `MPI_Recv()`: Blocking point-to-point communication calls.
         * `MPI_Bcast()`: Collective broadcast of data from 1 process to all processes in communicator.
         * `MPI_Reduce()`: Collective reduction operation (combining arrays via SUM, MIN, MAX).
@@ -248,7 +255,7 @@ int main(int argc, char** argv) {
 
     with t_api4:
         st.subheader("Socket Programming API (TCP Stream vs UDP Datagram)")
-        st.write("A **Socket** is an abstraction representing an endpoint of communication identified by `(IP Address : Port Number)`.")
+        st.write("A Socket is an abstraction representing an endpoint of communication identified by `(IP Address : Port Number)`.")
 
         col_s1, col_s2 = st.columns(2)
         with col_s1:
@@ -266,8 +273,8 @@ int main(int argc, char** argv) {
 # ----------------------------------------------------
 # PAGE 3: AMDAHL'S LAW CALCULATOR
 # ----------------------------------------------------
-elif page == "⚡ Amdahl's Law & Speedup Calculator":
-    st.title("⚡ Interactive Speedup & Amdahl's Law Calculator")
+elif page == "3. Speedup & Amdahl's Law Calculator":
+    st.title("Speedup & Amdahl's Law Calculator")
     st.write("Amdahl's Law predicts theoretical speedup when executing a task across multiple processors.")
 
     col1, col2 = st.columns(2)
@@ -290,17 +297,17 @@ elif page == "⚡ Amdahl's Law & Speedup Calculator":
     fig.add_hline(y=max_limit, line_dash="dash", line_color="red", annotation_text=f"Max Limit ({max_limit:.1f}x)")
     st.plotly_chart(fig, use_container_width=True)
 
-    with st.expander("📖 Amdahl's Law Math & Formulas"):
+    with st.expander("Amdahl's Law Mathematical Model"):
         st.latex(r"S(p) = \frac{1}{(1-f) + \frac{f}{p}}")
-        st.write(r"• **$T_1$**: Time on 1 processor.")
-        st.write(r"• **$T_p$**: Time on $p$ processors.")
-        st.write(r"• **Key Takeaway**: Even with infinite processors ($p \rightarrow \infty$), speedup is strictly capped by the serial fraction $\frac{1}{1-f}$.")
+        st.write(r"• **$T_1$**: Execution time on 1 processor.")
+        st.write(r"• **$T_p$**: Execution time on $p$ processors.")
+        st.write(r"• **Key Principle**: Even with infinite processors ($p \rightarrow \infty$), speedup is strictly bounded by the serial fraction $\frac{1}{1-f}$.")
 
 # ----------------------------------------------------
 # PAGE 4: DEADLOCK SIMULATOR
 # ----------------------------------------------------
-elif page == "🔒 Deadlock & Coffman Conditions Simulator":
-    st.title("🔒 Deadlock & Coffman Conditions Simulator")
+elif page == "4. Deadlock & Coffman Conditions Simulator":
+    st.title("Deadlock & Coffman Conditions Simulator")
     st.write("A deadlock occurs when processes wait indefinitely for resources held by each other.")
 
     c1 = st.checkbox("1. Mutual Exclusion (Non-shareable resource)", value=True)
@@ -309,15 +316,15 @@ elif page == "🔒 Deadlock & Coffman Conditions Simulator":
     c4 = st.checkbox("4. Circular Wait (Closed loop process wait graph)", value=True)
 
     if c1 and c2 and c3 and c4:
-        st.error("⚠️ DEADLOCK DETECTED! All 4 Coffman conditions hold simultaneously.")
+        st.error("DEADLOCK CONDITION CONFIRMED: All 4 Coffman conditions hold simultaneously.")
     else:
-        st.success("✅ NO DEADLOCK. At least one Coffman condition is broken.")
+        st.success("NO DEADLOCK: At least one Coffman condition is broken.")
 
 # ----------------------------------------------------
 # PAGE 5: CPU SCHEDULING SIMULATOR
 # ----------------------------------------------------
-elif page == "🔄 CPU Scheduling Simulator (RR vs SJF)":
-    st.title("🔄 CPU Scheduling Algorithm Simulator")
+elif page == "5. CPU Scheduling Simulator (RR vs SJF)":
+    st.title("CPU Scheduling Algorithm Simulator")
 
     num_p = st.slider("Number of Processes:", 2, 6, 4)
     q = st.slider("Round Robin Time Quantum (ms):", 1, 10, 2)
@@ -338,8 +345,8 @@ elif page == "🔄 CPU Scheduling Simulator (RR vs SJF)":
 # ----------------------------------------------------
 # PAGE 6: JAVA RMI EXPLORER
 # ----------------------------------------------------
-elif page == "☕ Java RMI & RPC Architecture Explorer":
-    st.title("☕ Java RMI Code Explorer")
+elif page == "6. Java RMI & RPC Architecture":
+    st.title("Java RMI Code Explorer")
     t1, t2, t3, t4 = st.tabs(["1. Remote Interface", "2. Implementation", "3. Server Registration", "4. Client Invocation"])
 
     with t1:
@@ -388,35 +395,35 @@ public class Client {
 # ----------------------------------------------------
 # PAGE 7: DISTRIBUTED ALGORITHMS
 # ----------------------------------------------------
-elif page == "🌐 Distributed Algorithms & Protocols (2PC, Election, Clocks)":
-    st.title("🌐 Distributed Algorithms & Coordination Protocols")
+elif page == "7. Distributed Coordination Algorithms (2PC, Election, Clocks)":
+    st.title("Distributed Algorithms & Coordination Protocols")
 
     t_algo1, t_algo2, t_algo3 = st.tabs(["Two-Phase Commit (2PC)", "Bully Election Algorithm", "Lamport Logical Clocks"])
 
     with t_algo1:
         st.subheader("Two-Phase Commit Protocol (2PC)")
-        st.write("Guarantees **Atomicity (All-or-Nothing)** across distributed transaction nodes.")
-        st.write("1. **Phase 1 (Prepare / Voting)**: Coordinator asks all participants `VOTE_COMMIT` or `VOTE_ABORT`.")
-        st.write("2. **Phase 2 (Commit / Abort)**: If ALL vote commit, Coordinator sends `GLOBAL_COMMIT`. If any node votes abort, Coordinator sends `GLOBAL_ABORT`.")
+        st.write("Guarantees Atomicity (All-or-Nothing) across distributed transaction nodes.")
+        st.write("1. **Phase 1 (Prepare / Voting)**: Coordinator asks all participants VOTE_COMMIT or VOTE_ABORT.")
+        st.write("2. **Phase 2 (Commit / Abort)**: If ALL vote commit, Coordinator sends GLOBAL_COMMIT. If any node votes abort, Coordinator sends GLOBAL_ABORT.")
 
     with t_algo2:
         st.subheader("Bully Election Algorithm")
-        st.write("Elects the active node with the **highest Process ID** as coordinator when leader failure is detected.")
-        st.write("1. Process $P_i$ detects leader timeout and sends `ELECTION` messages to all processes with higher IDs.")
-        st.write("2. If no higher process responds, $P_i$ wins and broadcasts `COORDINATOR` to all nodes.")
+        st.write("Elects the active node with the highest Process ID as coordinator when leader failure is detected.")
+        st.write("1. Process $P_i$ detects leader timeout and sends ELECTION messages to all processes with higher IDs.")
+        st.write("2. If no higher process responds, $P_i$ wins and broadcasts COORDINATOR to all nodes.")
 
     with t_algo3:
         st.subheader("Lamport Logical Clocks")
-        st.write("Establishes a **happened-before relation ($a \rightarrow b$)** without synchronized physical clocks.")
+        st.write("Establishes a happened-before relation ($a \rightarrow b$) without synchronized physical clocks.")
         st.write("• Before executing an event, process increments local clock: $L = L + 1$.")
         st.write(r"• On receiving message with timestamp $t$: $L = \max(L, t) + 1$.")
 
 # ----------------------------------------------------
 # PAGE 8: TEXTBOOK QA
 # ----------------------------------------------------
-elif page == "💡 Textbook Q&A Bank (Coulouris)":
-    st.title("💡 Coulouris Textbook Solution Q&A Bank")
-    q_filter = st.text_input("🔍 Search Q&A bank:")
+elif page == "8. Textbook Solution Q&A Bank (Coulouris)":
+    st.title("Coulouris Textbook Solution Q&A Bank")
+    q_filter = st.text_input("Filter Q&A Bank:")
 
     qas = [
         ("Q1: RMI Invocation Semantics?", "Maybe (0 or 1 exec, no retransmits), At-Least-Once (1+ execs, retransmits), At-Most-Once (0 or 1 exec, duplicate reply history filter)."),
@@ -428,14 +435,14 @@ elif page == "💡 Textbook Q&A Bank (Coulouris)":
 
     for q_text, ans_text in qas:
         if not q_filter or q_filter.lower() in q_text.lower() or q_filter.lower() in ans_text.lower():
-            with st.expander(f"📌 {q_text}"):
+            with st.expander(q_text):
                 st.write(ans_text)
 
 # ----------------------------------------------------
 # PAGE 9: PAST PAPER
 # ----------------------------------------------------
-elif page == "📝 STU 2023/2024 Solved Past Exam Paper":
-    st.title("📝 STU 2023/2024 End of Semester Solved Exam Paper")
+elif page == "9. STU 2023/2024 End of Semester Exam Solutions":
+    st.title("STU 2023/2024 End of Semester Solved Exam Paper")
 
     with st.expander("Q1(a) Heterogeneity in Distributed Systems (6 Marks)"):
         st.write("1. Hardware/ISAs (x86 vs ARM vs GPU). 2. Operating Systems (Linux vs Windows). 3. Middleware (Java RMI vs gRPC).")
@@ -449,8 +456,8 @@ elif page == "📝 STU 2023/2024 Solved Past Exam Paper":
 # ----------------------------------------------------
 # PAGE 10: 40-QUESTION PRACTICE QUIZ ENGINE
 # ----------------------------------------------------
-elif page == "🧠 40-Question Practice Quiz Engine (10 Sets)":
-    st.title("🧠 40-Question Practice Quiz Engine")
+elif page == "10. Examination Practice Quiz Engine (10 Sets)":
+    st.title("Examination Practice Quiz Engine")
     st.write("Select a Quiz Set or generate a Random Quiz from the 40-question course bank:")
 
     quiz_mode = st.selectbox(
@@ -466,7 +473,7 @@ elif page == "🧠 40-Question Practice Quiz Engine (10 Sets)":
             "Set 8: Distributed Algorithms (2PC, Election, Clocks) (Q29 - Q32)",
             "Set 9: Cloud Computing & Security (Q33 - Q36)",
             "Set 10: Textbook Scenarios & Mutual Exclusion (Q37 - Q40)",
-            "🎲 Random 10-Question Comprehensive Exam Challenge"
+            "Random 10-Question Comprehensive Exam Challenge"
         ]
     )
 
@@ -489,21 +496,20 @@ elif page == "🧠 40-Question Practice Quiz Engine (10 Sets)":
         )
         st.write("")
 
-    if st.button("Submit & Grade Quiz"):
+    if st.button("Submit & Evaluation"):
         score = 0
         total = len(selected_questions)
         
-        st.markdown("### 📊 Quiz Results & Detailed Explanations")
+        st.markdown("### Evaluation & Answer Analysis")
         for i, item in enumerate(selected_questions):
             user_choice_idx = item['opts'].index(user_answers[i])
             if user_choice_idx == item['ans']:
                 score += 1
-                st.success(f"✅ **Q{i+1}: Correct!** Choice: {user_answers[i]}")
+                st.success(f"Q{i+1}: Correct. Choice: {user_answers[i]}")
             else:
-                st.error(f"❌ **Q{i+1}: Incorrect.** Your Choice: {user_answers[i]} | **Correct Choice: {item['opts'][item['ans']]}**")
-            st.info(f"💡 **Explanation:** {item['exp']}")
+                st.error(f"Q{i+1}: Incorrect. Your Choice: {user_answers[i]} | Correct Choice: {item['opts'][item['ans']]}")
+            st.info(f"Explanation: {item['exp']}")
             st.write("---")
 
         pct = (score / total) * 100
-        st.balloons()
-        st.metric("Final Quiz Score", f"{score} / {total}", f"{pct:.0f}%")
+        st.metric("Final Evaluation Score", f"{score} / {total}", f"{pct:.0f}%")

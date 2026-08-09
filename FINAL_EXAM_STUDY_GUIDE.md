@@ -3,7 +3,7 @@
 
 ---
 
-## 📌 QUICK EXAM CHECKLIST (12 Core Exam Topics)
+## EXAM REVISION CHECKLIST (12 Core Exam Topics)
 - [x] **HPC & Parallel Architecture**: Speedup, Amdahl's Law, Flynn's Taxonomy (SISD, SIMD, MISD, MIMD).
 - [x] **3-Tier & Client-Server**: Presentation (Tier 1), Business Logic (Tier 2), Data Layer (Tier 3).
 - [x] **Concurrency & Race Conditions**: Critical Sections, Race conditions, The Lost Update Problem & remedies.
