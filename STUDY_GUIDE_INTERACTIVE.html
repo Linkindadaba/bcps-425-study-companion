@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BCPS 425: Parallel & Distributed Computing — Interactive Exam Study App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --bg-card: #1e293b;
+      --bg-card-hover: #334155;
+      --accent-blue: #38bdf8;
+      --accent-purple: #c084fc;
+      --accent-green: #4ade80;
+      --accent-rose: #fb7185;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #334155;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding-bottom: 60px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+      border-bottom: 1px solid var(--border-color);
+      padding: 30px 20px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .search-bar {
+      margin-bottom: 25px;
+      position: relative;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 16px 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-bar input:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+      overflow-x: auto;
+      padding-bottom: 5px;
+    }
+
+    .tab-btn {
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      background: var(--bg-card-hover);
+      color: var(--text-main);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #0284c7, #4f46e5);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .content-section {
+      display: none;
+    }
+
+    .content-section.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .card h2 {
+      font-size: 1.3rem;
+      color: var(--accent-blue);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      color: var(--accent-purple);
+      margin: 16px 0 8px 0;
+    }
+
+    p, li {
+      color: #cbd5e1;
+      font-size: 0.98rem;
+      margin-bottom: 8px;
+    }
+
+    ul, ol {
+      padding-left: 24px;
+      margin-bottom: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      background: #0f172a;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    th {
+      background: #1e1b4b;
+      color: var(--accent-blue);
+      font-weight: 600;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      background: #0f172a;
+      color: var(--accent-green);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.88rem;
+    }
+
+    pre {
+      background: #0f172a;
+      padding: 16px;
+      border-radius: 10px;
+      overflow-x: auto;
+      margin: 12px 0;
+      border: 1px solid var(--border-color);
+    }
+
+    pre code {
+      background: transparent;
+      padding: 0;
+      color: #f1f5f9;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .badge-blue { background: rgba(56, 189, 248, 0.15); color: var(--accent-blue); }
+    .badge-purple { background: rgba(192, 132, 252, 0.15); color: var(--accent-purple); }
+    .badge-green { background: rgba(74, 222, 128, 0.15); color: var(--accent-green); }
+
+    /* Quiz styling */
+    .quiz-q {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .quiz-q h4 {
+      font-size: 1.05rem;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    .quiz-opt {
+      display: block;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: #0f172a;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .quiz-opt:hover {
+      background: var(--bg-card-hover);
+    }
+    .quiz-opt.correct {
+      background: rgba(74, 222, 128, 0.2);
+      border-color: var(--accent-green);
+      color: var(--accent-green);
+    }
+    .quiz-opt.wrong {
+      background: rgba(251, 113, 133, 0.2);
+      border-color: var(--accent-rose);
+      color: var(--accent-rose);
+    }
+
+    /* Flashcard styling */
+    .flashcard-container {
+      perspective: 1000px;
+      margin: 20px 0;
+    }
+    .flashcard {
+      background: var(--bg-card);
+      border: 1px solid var(--accent-purple);
+      border-radius: 16px;
+      padding: 40px 20px;
+      text-align: center;
+      cursor: pointer;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.3s;
+      box-shadow: 0 8px 30px rgba(192, 132, 252, 0.1);
+    }
+    .flashcard:hover {
+      transform: translateY(-4px);
+    }
+    .flashcard p.title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--accent-purple);
+    }
+    .flashcard p.ans {
+      font-size: 1rem;
+      color: var(--text-main);
+      margin-top: 14px;
+      display: none;
+    }
+    .flashcard.flipped p.ans {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🎓 BCPS 425: Parallel & Distributed Computing</h1>
+    <p>Sunyani Technical University (STU) — Ultimate Interactive Exam Revision App</p>
+  </header>
+
+  <div class="container">
+    
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="🔍 Search any topic, term, algorithm, or question..." onkeyup="filterContent()">
+    </div>
+
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="showTab('modules')">📚 Core Modules</button>
+      <button class="tab-btn" onclick="showTab('pastpaper')">📝 Solved 2023/2024 Exam</button>
+      <button class="tab-btn" onclick="showTab('qa')">💡 Textbook Q&A Bank</button>
+      <button class="tab-btn" onclick="showTab('quiz')">🧠 Interactive Quiz</button>
+      <button class="tab-btn" onclick="showTab('flashcards')">🎴 Practice Flashcards</button>
+    </div>
+
+    <!-- MODULES TAB -->
+    <div id="modules" class="content-section active">
+      
+      <div class="card searchable">
+        <h2><span class="badge badge-blue">Module 1</span> High Performance Computing (HPC) & Parallel Architectures</h2>
+        <p><strong>Parallel Computing:</strong> Multiple processors in a single machine executing sub-tasks concurrently to increase speed.</p>
+        <p><strong>Distributed Computing:</strong> Autonomous computers connected over a network coordinating via message passing.</p>
+        <p><strong>Speedup Formula:</strong> <code>S(p) = T1 / Tp</code></p>
+        <p><strong>Amdahl's Law:</strong> <code>S(p) = 1 / ((1 - f) + (f / p))</code> where <code>(1 - f)</code> is the serial portion.</p>
+        <h3>Flynn's Taxonomy</h3>
+        <ul>
+          <li><strong>SISD:</strong> Single Instruction, Single Data (Legacy single core).</li>
+          <li><strong>SIMD:</strong> Single Instruction, Multiple Data (Vector processors, GPUs).</li>
+          <li><strong>MISD:</strong> Multiple Instruction, Single Data (Space shuttle flight control).</li>
+          <li><strong>MIMD:</strong> Multiple Instruction, Multiple Data (Multi-core CPUs, clusters).</li>
+        </ul>
+      </div>
+
+      <div class="card searchable">
+        <h2><span class="badge badge-blue">Module 2</span> 3-Tier & Client-Server Architecture</h2>
+        <ul>
+          <li><strong>Tier 1 (Presentation):</strong> Client User Interface (Browser, Mobile App).</li>
+          <li><strong>Tier 2 (Application Logic):</strong> Server executing business rules and processing requests.</li>
+          <li><strong>Tier 3 (Data Layer):</strong> Database Management System (MySQL, PostgreSQL, S3).</li>
+        </ul>
+        <p><strong>Key Benefits:</strong> Independent horizontal scalability of layers, maintainability of business logic without UI code changes, and database security isolation.</p>
+      </div>
+
+      <div class="card searchable">
+        <h2><span class="badge badge-blue">Module 3</span> Concurrency, Race Conditions & Lost Update</h2>
+        <p><strong>Race Condition:</strong> System behavior depends on the timing/sequence of execution threads.</p>
+        <p><strong>Lost Update Problem:</strong> Two users read the same record simultaneously, both update locally, and the second write overwrites the first user's change.</p>
+        <p><strong>Remedies:</strong> Pessimistic Locking (<code>SELECT ... FOR UPDATE</code>) or Optimistic Concurrency Control (version timestamps).</p>
+      </div>
+
+      <div class="card searchable">
+        <h2><span class="badge badge-purple">Module 4</span> Deadlocks (Coffman Conditions & Strategies)</h2>
+        <h3>4 Coffman Conditions (Must all hold):</h3>
+        <ol>
+          <li><strong>Mutual Exclusion:</strong> Non-shareable resource.</li>
+          <li><strong>Hold and Wait:</strong> Holding resource while waiting for another.</li>
+          <li><strong>No Preemption:</strong> Resources released only voluntarily.</li>
+          <li><strong>Circular Wait:</strong> Closed loop process wait graph.</li>
+        </ol>
+        <h3>Handling Strategies</h3>
+        <p><strong>Prevention:</strong> Enforce total resource request ordering to break Circular Wait.</p>
+        <p><strong>Avoidance:</strong> Dynamic evaluation via <strong>Banker's Algorithm</strong> for safe states.</p>
+        <p><strong>Detection & Recovery:</strong> Cycle detection on Wait-For graphs & victim process rollback.</p>
+      </div>
+
+      <div class="card searchable">
+        <h2><span class="badge badge-green">Module 5</span> CPU Scheduling (Round Robin vs SJF)</h2>
+        <table>
+          <tr><th>Criteria</th><th>Round Robin (RR)</th><th>Shortest Job First (SJF)</th></tr>
+          <tr><td>Mechanism</td><td>Fixed time quantum in FIFO queue</td><td>Shortest CPU burst time runs first</td></tr>
+          <tr><td>Starvation Risk</td><td>Zero (Fair)</td><td>High for long jobs</td></tr>
+          <tr><td>Best For</td><td>Interactive time-sharing</td><td>Predictable batch workloads</td></tr>
+        </table>
+      </div>
+
+      <div class="card searchable">
+        <h2><span class="badge badge-purple">Module 7</span> Java RMI Code Template</h2>
+        <pre><code>// Remote Interface
+public interface ComputeService extends Remote {
+    int add(int a, int b) throws RemoteException;
+}
+
+// Server Registration
+LocateRegistry.createRegistry(1099);
+Naming.rebind("rmi://localhost:1099/ComputeService", new ComputeServiceImpl());
+
+// Client Invocation
+ComputeService service = (ComputeService) Naming.lookup("rmi://localhost:1099/ComputeService");
+int result = service.add(10, 20);</code></pre>
+      </div>
+
+    </div>
+
+    <!-- PAST PAPER TAB -->
+    <div id="pastpaper" class="content-section">
+      <div class="card searchable">
+        <h2>📜 STU 2023/2024 Past Exam Solutions</h2>
+        <h3>Q1(a) Heterogeneity Examples (6 Marks)</h3>
+        <p>Hardware/Processor architectures (x86 vs ARM vs GPUs), Operating Systems (Linux vs Windows), and Middleware (Java RMI vs gRPC vs REST).</p>
+
+        <h3>Q1(b) Search Engine Synchronization (4 Marks)</h3>
+        <p>Reader-Writer locking between query threads (readers) and crawlers (writers), alongside atomic index swapping.</p>
+
+        <h3>Q1(c) Service A vs B Failure Classes (6 Marks)</h3>
+        <p>Service A exhibits omission, delay, and arbitrary payload corruption. Service B exhibits omission (buffer overflow) and delay. Service B is <strong>NOT reliable</strong> because dropped messages are not retransmitted.</p>
+
+        <h3>Q2(i) Internet Routing Scheme (4 Marks)</h3>
+        <p>Autonomous Systems (AS) default routing and CIDR IP prefix aggregation (`192.168.0.0/16`).</p>
+
+        <h3>Q3(a) Parallel vs Distributed Table (8 Marks)</h3>
+        <p>Parallel: single machine, shared memory, bus communication. Distributed: multiple machines, disjoint RAM, network socket message passing.</p>
+      </div>
+    </div>
+
+    <!-- TEXTBOOK QA TAB -->
+    <div id="qa" class="content-section">
+      <div class="card searchable">
+        <h2>💡 Coulouris Textbook Q&A Bank</h2>
+        <h3>Q1: RMI Invocation Semantics?</h3>
+        <p><strong>Maybe:</strong> 0 or 1 execution (no retransmit).<br>
+        <strong>At-Least-Once:</strong> 1+ executions (retransmits on timeout, safe for idempotent calls).<br>
+        <strong>At-Most-Once:</strong> 0 or 1 execution (retransmits with duplicate reply history filtering).</p>
+
+        <h3>Q2: Is Appending to a file Idempotent?</h3>
+        <p><strong>No.</strong> Each append increases file length. Writing to a fixed offset IS idempotent.</p>
+
+        <h3>Q3: CORBA CDR vs XML Data Typing?</h3>
+        <p>CORBA CDR uses static pre-compiled IDL files, removing type tag overhead for compact binary transport. XML is self-describing with textual tags, increasing payload size.</p>
+      </div>
+    </div>
+
+    <!-- QUIZ TAB -->
+    <div id="quiz" class="content-section">
+      <div class="card">
+        <h2>🧠 Interactive Exam Self-Test</h2>
+        <div id="quiz-container"></div>
+      </div>
+    </div>
+
+    <!-- FLASHCARDS TAB -->
+    <div id="flashcards" class="content-section">
+      <div class="card">
+        <h2>🎴 Quick Review Flashcards (Click to Flip)</h2>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <p class="title">Amdahl's Law Formula</p>
+          <p class="ans">S(p) = 1 / ((1 - f) + (f / p)) where (1 - f) is the sequential part.</p>
+        </div>
+
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <p class="title">4 Coffman Conditions</p>
+          <p class="ans">1. Mutual Exclusion<br>2. Hold & Wait<br>3. No Preemption<br>4. Circular Wait</p>
+        </div>
+
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <p class="title">Client-Side Proxy in Java RMI</p>
+          <p class="ans">Stub (marshals arguments and sends network requests to Server Skeleton).</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function showTab(tabId) {
+      document.querySelectorAll('.content-section').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    function filterContent() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      document.querySelectorAll('.searchable').forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(q) ? 'block' : 'none';
+      });
+    }
+
+    const quizQuestions = [
+      {
+        q: "1. Which Flynn Taxonomy class applies to modern GPU graphics processors?",
+        opts: ["SISD", "SIMD", "MISD", "MIMD"],
+        correct: 1
+      },
+      {
+        q: "2. Which CPU scheduling algorithm minimizes average waiting time?",
+        opts: ["Round Robin", "Shortest Job First (SJF)", "Priority Scheduling", "FCFS"],
+        correct: 1
+      },
+      {
+        q: "3. What exception MUST be declared by methods in a Java RMI Remote Interface?",
+        opts: ["NullPointerException", "RemoteException", "IOException", "ClassNotFoundException"],
+        correct: 1
+      },
+      {
+        q: "4. Which RMI invocation semantic guarantees 0 or 1 execution with duplicate filtering?",
+        opts: ["Maybe", "At-Least-Once", "At-Most-Once", "Exactly-Never"],
+        correct: 2
+      }
+    ];
+
+    function renderQuiz() {
+      const container = document.getElementById('quiz-container');
+      container.innerHTML = quizQuestions.map((item, qIdx) => `
+        <div class="quiz-q">
+          <h4>${item.q}</h4>
+          ${item.opts.map((opt, oIdx) => `
+            <div class="quiz-opt" onclick="checkAns(this, ${qIdx}, ${oIdx})">${opt}</div>
+          `).join('')}
+        </div>
+      `).join('');
+    }
+
+    function checkAns(el, qIdx, oIdx) {
+      const parent = el.parentElement;
+      const correctIdx = quizQuestions[qIdx].correct;
+      const opts = parent.querySelectorAll('.quiz-opt');
+      opts.forEach((optEl, i) => {
+        optEl.style.pointerEvents = 'none';
+        if (i === correctIdx) optEl.classList.add('correct');
+        else if (i === oIdx) optEl.classList.add('wrong');
+      });
+    }
+
+    renderQuiz();
+  </script>
+</body>
+</html>

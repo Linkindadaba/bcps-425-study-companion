@@ -1,0 +1,13 @@
+*HPC 
+*Deadlock 
+*APIs
+*SCHEDULING
+*RMI
+*Distributee 
+*architecture  3tier *parallelism
+*Java RMI
+*RI
+*CONCURRENCY PROGRAMS
+*PROTOCALS
+*DISTRIBUTED OS
+*CLIENTSERVER
