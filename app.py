@@ -12,7 +12,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom Styling - Professional Corporate / Academic Layout
+# Custom Styling - Academic Layout
 st.markdown("""
     <style>
     .main-title {
@@ -54,7 +54,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Sidebar Navigation (Clean Professional Text Only)
+# Sidebar Navigation
 st.sidebar.title("BCPS 425 Modules")
 st.sidebar.caption("Sunyani Technical University — Department of Computer Science")
 
@@ -62,20 +62,21 @@ page = st.sidebar.radio(
     "Select Section:",
     [
         "1. Course Overview & Curriculum Focus",
-        "2. Distributed APIs & Message Passing (MPI, Sockets)",
-        "3. Speedup & Amdahl's Law Calculator",
-        "4. Deadlock & Coffman Conditions Simulator",
-        "5. CPU Scheduling Simulator (RR vs SJF)",
-        "6. Java RMI & RPC Architecture",
-        "7. Distributed Coordination Algorithms (2PC, Election, Clocks)",
-        "8. Textbook Solution Q&A Bank (Coulouris)",
-        "9. STU 2023/2024 End of Semester Exam Solutions",
-        "10. Examination Practice Quiz Engine (10 Sets)"
+        "2. STU Examiner Style Mock Papers & Solutions",
+        "3. Distributed APIs & Message Passing (MPI, Sockets)",
+        "4. Speedup & Amdahl's Law Calculator",
+        "5. Deadlock & Coffman Conditions Simulator",
+        "6. CPU Scheduling Simulator (RR vs SJF)",
+        "7. Java RMI & RPC Architecture",
+        "8. Distributed Coordination Algorithms (2PC, Election, Clocks)",
+        "9. Textbook Solution Q&A Bank (Coulouris)",
+        "10. STU 2023/2024 End of Semester Exam Solutions",
+        "11. Examination Practice Quiz Engine (10 Sets / 40 MCQs)"
     ]
 )
 
 # ----------------------------------------------------
-# 40-QUESTION MCQ QUESTION BANK (Clean Text)
+# 40-QUESTION MCQ QUESTION BANK
 # ----------------------------------------------------
 MCQ_BANK = [
     # Set 1
@@ -169,9 +170,130 @@ if page == "1. Course Overview & Curriculum Focus":
         st.success("**Unit 8: Cloud Computing & Security**\n- IaaS, PaaS, SaaS, Virtualization, Authentication vs Authorization vs Encryption.")
 
 # ----------------------------------------------------
-# PAGE 2: DISTRIBUTED APIS & MESSAGE PASSING
+# PAGE 2: EXAMINER STYLE MOCK PAPERS
 # ----------------------------------------------------
-elif page == "2. Distributed APIs & Message Passing (MPI, Sockets)":
+elif page == "2. STU Examiner Style Mock Papers & Solutions":
+    st.title("STU Examiner Style Model Mock Examination Papers")
+    st.caption("Designed according to the examination setting pattern of Adjei-Gyabaa Sylvester Kwasi (STU Computer Science Dept.)")
+
+    t_mock1, t_mock2 = st.tabs(["STU Model Mock Paper 1 (60 Marks)", "STU Model Mock Paper 2 (60 Marks)"])
+
+    with t_mock1:
+        st.subheader("SUNYANI TECHNICAL UNIVERSITY (STU)")
+        st.write("**DEPARTMENT OF COMPUTER SCIENCE | END OF SECOND SEMESTER EXAMINATION**")
+        st.write("**COURSE**: BCPS 425: PARALLEL & DISTRIBUTED COMPUTING | **TIME**: 2½ HOURS | **TOTAL**: 60 MARKS")
+        st.markdown("---")
+
+        with st.expander("Question 1 (18 Marks) — Deadlocks, Concurrency & RMI Semantics"):
+            st.markdown("""
+            **(a)** State and explain the four (4) Coffman conditions required for a deadlock to exist in a system. How does Deadlock Prevention differ from Deadlock Avoidance? *(6 marks)*  
+            **Solution:**  
+            - *4 Conditions:* Mutual Exclusion, Hold & Wait, No Preemption, Circular Wait. All 4 must hold simultaneously.  
+            - *Prevention vs Avoidance:* Prevention breaks 1 of the 4 conditions structurally (e.g., total resource ordering). Avoidance dynamically evaluates request states (e.g., Banker's Algorithm) to guarantee execution stays in a Safe State.
+
+            **(b)** Consider an online flight reservation system where two travel agents concurrently attempt to book the last available seat on a flight. Describe the concurrency problem that occurs if locking is not enforced, and explain two (2) mechanisms to prevent it. *(4 marks)*  
+            **Solution:**  
+            - *Problem:* The **Lost Update Problem**. Both agents read seat status as AVAILABLE. Agent A writes BOOKED BY A, and a millisecond later Agent B writes BOOKED BY B, overwriting Agent A's update.  
+            - *Mechanisms:* 1. **Pessimistic Locking** (`SELECT ... FOR UPDATE` locks row before read). 2. **Optimistic Concurrency Control** (version timestamps `WHERE version = 1`).
+
+            **(c)** Compare the three (3) classes of RMI invocation semantics: *Maybe*, *At-Least-Once*, and *At-Most-Once*. Which semantic is safe for non-idempotent operations? *(6 marks)*  
+            **Solution:**  
+            - *Maybe:* 0 or 1 execution (no retransmissions).  
+            - *At-Least-Once:* 1 or more executions (retransmits on timeout; requires idempotent calls).  
+            - *At-Most-Once:* 0 or 1 execution (retransmits with duplicate reply history filtering at server). Safe for non-idempotent operations!
+
+            **(d)** Explain why CORBA CDR messages carry no explicit data-type tags, whereas XML messages carry explicit textual tags. What is the performance trade-off? *(2 marks)*  
+            **Solution:** CORBA CDR relies on pre-compiled IDL interface files shared by client and server, so types are known in advance without sending tags (compact binary). XML is self-describing, adding tag overhead.
+            """)
+
+        with st.expander("Question 2 (18 Marks) — DOS Transparencies, CPU Scheduling & 2PC"):
+            st.markdown("""
+            **(i)** Distinguish between a Distributed Operating System (DOS) and a Network Operating System (NOS) in terms of user perception and system image. *(4 marks)*  
+            **Solution:** DOS presents a **Single-System Image** where machine locations and disjoint RAM are transparent to users. NOS consists of autonomous connected machines where users explicitly specify machine locations.
+
+            **(ii)** In a tabular form, describe four (4) CPU scheduling algorithms (Round Robin, Shortest Job First, First-Come First-Served, Priority) in terms of Preemption, Primary Metric, and Starvation Risk. *(10 marks)*  
+            **Solution:**  
+            | Algorithm | Preemptive? | Primary Metric | Starvation Risk |
+            | :--- | :--- | :--- | :--- |
+            | **Round Robin (RR)** | Yes (Time quantum) | Responsiveness & Fairness | **Zero Starvation** |
+            | **Shortest Job First (SJF)** | No (Non-preemptive) | Minimal Average Wait Time | High (for long jobs) |
+            | **First-Come First-Served** | No | Execution Arrival Order | Low (Convoy effect risk) |
+            | **Priority Scheduling** | Both variants | Priority Number Execution | High (Low priority jobs) |
+
+            **(iii)** Explain how the Two-Phase Commit Protocol (2PC) guarantees transaction Atomicity across distributed database nodes. *(4 marks)*  
+            **Solution:** Phase 1 (Prepare): Coordinator asks all nodes to vote COMMIT or ABORT. Phase 2 (Commit/Abort): If ALL nodes vote commit, Coordinator sends GLOBAL_COMMIT. If any node votes abort, Coordinator sends GLOBAL_ABORT.
+            """)
+
+        with st.expander("Question 3 (24 Marks) — Parallel Architectures, Cloud & Web Services"):
+            st.markdown("""
+            **(a)** With the aid of a table, give four (4) differences between Shared Memory (SMP) and Distributed Memory (Cluster) Parallel Architectures. *(8 marks)*  
+            **Solution:**  
+            | Feature | Shared Memory (SMP) | Distributed Memory (Cluster) |
+            | :--- | :--- | :--- |
+            | **Physical RAM** | Single shared RAM space | Private independent RAM per node |
+            | **Interconnection** | High-speed memory bus | Network cables (Ethernet/Infiniband) |
+            | **Communication** | Shared variables & locks | Explicit message passing (MPI/Sockets) |
+            | **Scalability** | Limited by physical bus (16-64 cores) | Highly scalable (thousands of nodes) |
+
+            **(b)** Discuss four (4) hardware and software factors that limit speedup according to Amdahl's Law. *(4 marks)*  
+            **Solution:** 1. Sequential code portion (1-f). 2. Inter-processor communication overhead. 3. Memory access contention. 4. Thread synchronization locking latency.
+
+            **(c)** Name and explain the three (3) primary Cloud Computing Service Models (IaaS, PaaS, SaaS). *(6 marks)*  
+            **Solution:** 1. **IaaS**: Infrastructure as a Service (raw VMs, storage). 2. **PaaS**: Platform as a Service (hosted dev platform). 3. **SaaS**: Software as a Service (end-user web apps).
+
+            **(d)** With the aid of a diagram, explain the Java RMI Architecture (Client Stub, RMI Registry, Server Skeleton). *(6 marks)*  
+            **Solution:** Client calls local Stub proxy -> Stub looks up service via RMI Registry (`Naming.lookup`) -> Stub marshals parameters over TCP network -> Server Skeleton unmarshals parameters and invokes actual Remote Object method.
+            """)
+
+    with t_mock2:
+        st.subheader("SUNYANI TECHNICAL UNIVERSITY (STU)")
+        st.write("**DEPARTMENT OF COMPUTER SCIENCE | MODEL EXAMINATION PAPER 2**")
+        st.markdown("---")
+
+        with st.expander("Question 1 (18 Marks) — Message Passing, Sockets & Invocation Failure"):
+            st.markdown("""
+            **(a)** Explain the differences between:  
+            (i) Synchronous Send vs Asynchronous Send *(3 marks)*  
+            (ii) Direct Messaging vs Indirect Messaging *(3 marks)*  
+            **Solution:**  
+            - (i) Synchronous send blocks the sender until the receiver accepts the message. Asynchronous send copies the message to a buffer and resumes execution immediately.  
+            - (ii) Direct messaging specifies explicit process IDs (`send(P1, msg)`). Indirect messaging uses intermediate mailboxes or message queues (RabbitMQ/Kafka).
+
+            **(b)** Explain why UDP is preferred over TCP for real-time video/audio streaming, whereas TCP is required for web browsing and file transfers. *(6 marks)*  
+            **Solution:** UDP is connectionless with zero retransmission overhead, making it ideal for streaming where speed matters more than minor dropped frames. TCP guarantees reliable, ordered byte streams via retransmissions, essential for file integrity.
+
+            **(c)** Describe the four (4) classes of failure that can occur during a Remote Procedure Call (RPC) invocation. *(6 marks)*  
+            **Solution:** 1. Request message omission failure. 2. Server crash failure. 3. Reply message omission failure. 4. Invocation timing timeout failure.
+            """)
+
+        with st.expander("Question 2 (18 Marks) — Distributed Coordination & Security"):
+            st.markdown("""
+            **(a)** Describe the operation of the Bully Election Algorithm when a coordinator process crash is detected. *(6 marks)*  
+            **Solution:** Process $P_i$ detects timeout and sends ELECTION messages to all higher ID processes. If no higher process responds, $P_i$ wins and broadcasts COORDINATOR to all processes.
+
+            st.markdown(r"**(b)** Define Lamport Logical Clocks and state the update rules for local events and message reception. *(6 marks)*")
+            st.markdown("**Solution:** Logical clock L establishes a happened-before order (a -> b). Rule 1: Local event L = L + 1. Rule 2: Message reception with timestamp t: L = max(L, t) + 1.")
+
+            **(c)** Differentiate between Authentication and Authorization in distributed security. *(6 marks)*  
+            **Solution:** Authentication proves WHO a user is (passwords, 2FA). Authorization verifies WHAT permissions an authenticated user has (RBAC access rights).
+            """)
+
+        with st.expander("Question 3 (24 Marks) — MPI Primitives & 3-Tier Systems"):
+            st.markdown("""
+            **(a)** State the purpose of the following MPI primitives: `MPI_Init`, `MPI_Comm_rank`, `MPI_Bcast`, `MPI_Reduce`. *(8 marks)*  
+            **Solution:** `MPI_Init` initializes MPI environment. `MPI_Comm_rank` gets process ID. `MPI_Bcast` broadcasts data from 1 process to all nodes. `MPI_Reduce` performs parallel reduction (SUM/MIN/MAX).
+
+            **(b)** Give four (4) advantages of Containerization (Docker) over traditional Hypervisor Virtual Machines (VMs). *(8 marks)*  
+            **Solution:** 1. Lightweight (shares host OS kernel). 2. Fast startup (seconds vs minutes). 3. Higher density per physical server. 4. Portable execution environments.
+
+            **(c)** Sketch and explain the 3-Tier Architecture for a web application. *(8 marks)*  
+            **Solution:** Presentation Tier (User UI) <-> Application Tier (Business Logic Server) <-> Data Tier (Database). Provides independent scaling, maintainability, and database security.
+            """)
+
+# ----------------------------------------------------
+# PAGE 3: DISTRIBUTED APIS & MESSAGE PASSING
+# ----------------------------------------------------
+elif page == "3. Distributed APIs & Message Passing (MPI, Sockets)":
     st.title("Distributed Application APIs & Message Passing Primitives")
     st.write("Overview of APIs, interprocess communication (IPC) abstractions, and message passing paradigms used in parallel and distributed systems.")
 
@@ -271,9 +393,9 @@ int main(int argc, char** argv) {
             st.write("• **Socket Calls**: `socket()`, `bind()`, `sendto()`, `recvfrom()`.")
 
 # ----------------------------------------------------
-# PAGE 3: AMDAHL'S LAW CALCULATOR
+# PAGE 4: AMDAHL'S LAW CALCULATOR
 # ----------------------------------------------------
-elif page == "3. Speedup & Amdahl's Law Calculator":
+elif page == "4. Speedup & Amdahl's Law Calculator":
     st.title("Speedup & Amdahl's Law Calculator")
     st.write("Amdahl's Law predicts theoretical speedup when executing a task across multiple processors.")
 
@@ -304,9 +426,9 @@ elif page == "3. Speedup & Amdahl's Law Calculator":
         st.write(r"• **Key Principle**: Even with infinite processors ($p \rightarrow \infty$), speedup is strictly bounded by the serial fraction $\frac{1}{1-f}$.")
 
 # ----------------------------------------------------
-# PAGE 4: DEADLOCK SIMULATOR
+# PAGE 5: DEADLOCK SIMULATOR
 # ----------------------------------------------------
-elif page == "4. Deadlock & Coffman Conditions Simulator":
+elif page == "5. Deadlock & Coffman Conditions Simulator":
     st.title("Deadlock & Coffman Conditions Simulator")
     st.write("A deadlock occurs when processes wait indefinitely for resources held by each other.")
 
@@ -321,9 +443,9 @@ elif page == "4. Deadlock & Coffman Conditions Simulator":
         st.success("NO DEADLOCK: At least one Coffman condition is broken.")
 
 # ----------------------------------------------------
-# PAGE 5: CPU SCHEDULING SIMULATOR
+# PAGE 6: CPU SCHEDULING SIMULATOR
 # ----------------------------------------------------
-elif page == "5. CPU Scheduling Simulator (RR vs SJF)":
+elif page == "6. CPU Scheduling Simulator (RR vs SJF)":
     st.title("CPU Scheduling Algorithm Simulator")
 
     num_p = st.slider("Number of Processes:", 2, 6, 4)
@@ -343,9 +465,9 @@ elif page == "5. CPU Scheduling Simulator (RR vs SJF)":
         st.write("• **Pros**: Minimizes average waiting time.")
 
 # ----------------------------------------------------
-# PAGE 6: JAVA RMI EXPLORER
+# PAGE 7: JAVA RMI EXPLORER
 # ----------------------------------------------------
-elif page == "6. Java RMI & RPC Architecture":
+elif page == "7. Java RMI & RPC Architecture":
     st.title("Java RMI Code Explorer")
     t1, t2, t3, t4 = st.tabs(["1. Remote Interface", "2. Implementation", "3. Server Registration", "4. Client Invocation"])
 
@@ -393,9 +515,9 @@ public class Client {
 }""", language="java")
 
 # ----------------------------------------------------
-# PAGE 7: DISTRIBUTED ALGORITHMS
+# PAGE 8: DISTRIBUTED ALGORITHMS
 # ----------------------------------------------------
-elif page == "7. Distributed Coordination Algorithms (2PC, Election, Clocks)":
+elif page == "8. Distributed Coordination Algorithms (2PC, Election, Clocks)":
     st.title("Distributed Algorithms & Coordination Protocols")
 
     t_algo1, t_algo2, t_algo3 = st.tabs(["Two-Phase Commit (2PC)", "Bully Election Algorithm", "Lamport Logical Clocks"])
@@ -419,9 +541,9 @@ elif page == "7. Distributed Coordination Algorithms (2PC, Election, Clocks)":
         st.write(r"• On receiving message with timestamp $t$: $L = \max(L, t) + 1$.")
 
 # ----------------------------------------------------
-# PAGE 8: TEXTBOOK QA
+# PAGE 9: TEXTBOOK QA
 # ----------------------------------------------------
-elif page == "8. Textbook Solution Q&A Bank (Coulouris)":
+elif page == "9. Textbook Solution Q&A Bank (Coulouris)":
     st.title("Coulouris Textbook Solution Q&A Bank")
     q_filter = st.text_input("Filter Q&A Bank:")
 
@@ -439,9 +561,9 @@ elif page == "8. Textbook Solution Q&A Bank (Coulouris)":
                 st.write(ans_text)
 
 # ----------------------------------------------------
-# PAGE 9: PAST PAPER
+# PAGE 10: PAST PAPER
 # ----------------------------------------------------
-elif page == "9. STU 2023/2024 End of Semester Exam Solutions":
+elif page == "10. STU 2023/2024 End of Semester Exam Solutions":
     st.title("STU 2023/2024 End of Semester Solved Exam Paper")
 
     with st.expander("Q1(a) Heterogeneity in Distributed Systems (6 Marks)"):
@@ -454,9 +576,9 @@ elif page == "9. STU 2023/2024 End of Semester Exam Solutions":
         st.write("Parallel: single machine, shared memory, bus. Distributed: multiple machines, disjoint RAM, network sockets.")
 
 # ----------------------------------------------------
-# PAGE 10: 40-QUESTION PRACTICE QUIZ ENGINE
+# PAGE 11: 40-QUESTION PRACTICE QUIZ ENGINE
 # ----------------------------------------------------
-elif page == "10. Examination Practice Quiz Engine (10 Sets)":
+elif page == "11. Examination Practice Quiz Engine (10 Sets / 40 MCQs)":
     st.title("Examination Practice Quiz Engine")
     st.write("Select a Quiz Set or generate a Random Quiz from the 40-question course bank:")
 
