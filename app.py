@@ -15,13 +15,6 @@ st.set_page_config(
 # Custom Styling - Academic Layout
 st.markdown("""
     <style>
-    .main-title {
-        font-size: 2.1rem;
-        font-weight: 700;
-        color: #0f172a;
-        margin-bottom: 4px;
-        letter-spacing: -0.5px;
-    }
     .dark-main-title {
         font-size: 2.1rem;
         font-weight: 700;
@@ -33,14 +26,6 @@ st.markdown("""
         color: #64748b;
         font-size: 0.95rem;
         margin-bottom: 18px;
-    }
-    .academic-card {
-        background-color: #1e293b;
-        border: 1px solid #334155;
-        border-radius: 8px;
-        padding: 20px;
-        margin-bottom: 18px;
-        color: #f8fafc;
     }
     .info-box {
         background-color: #0f172a;
@@ -80,64 +65,64 @@ page = st.sidebar.radio(
 # ----------------------------------------------------
 MCQ_BANK = [
     # Set 1
-    {"q": "1. In Flynn's Taxonomy, modern Graphics Processing Units (GPUs) belong to which classification?", "opts": ["SISD", "SIMD", "MISD", "MIMD"], "ans": 1, "exp": "GPUs execute a Single Instruction across Multiple Data streams simultaneously (SIMD)."},
-    {"q": "2. What limits the theoretical maximum speedup according to Amdahl's Law even with infinite processors?", "opts": ["Number of cores", "The strictly sequential fraction (1 - f)", "Network latency", "RAM size"], "ans": 1, "exp": "Amdahl's Law proves speedup S(p) is capped at 1/(1-f) by the serial fraction."},
-    {"q": "3. Which parallel architecture features shared memory accessible by all processors in a single machine?", "opts": ["Tightly Coupled / SMP", "Distributed Memory Cluster", "Grid System", "Peer-to-Peer"], "ans": 0, "exp": "Symmetric Multiprocessing (SMP) uses shared physical RAM across processors."},
-    {"q": "4. What is the formula for speedup S(p) given execution time T1 on 1 processor and Tp on p processors?", "opts": ["S(p) = T1 * Tp", "S(p) = T1 / Tp", "S(p) = Tp / T1", "S(p) = T1 + Tp"], "ans": 1, "exp": "Speedup is defined as execution time on 1 core divided by execution time on p cores."},
+    {"id": 1, "q": "1. In Flynn's Taxonomy, modern Graphics Processing Units (GPUs) belong to which classification?", "opts": ["SISD", "SIMD", "MISD", "MIMD"], "ans": 1, "exp": "GPUs execute a Single Instruction across Multiple Data streams simultaneously (SIMD)."},
+    {"id": 2, "q": "2. What limits the theoretical maximum speedup according to Amdahl's Law even with infinite processors?", "opts": ["Number of cores", "The strictly sequential fraction (1 - f)", "Network latency", "RAM size"], "ans": 1, "exp": "Amdahl's Law proves speedup S(p) is capped at 1/(1-f) by the serial fraction."},
+    {"id": 3, "q": "3. Which parallel architecture features shared memory accessible by all processors in a single machine?", "opts": ["Tightly Coupled / SMP", "Distributed Memory Cluster", "Grid System", "Peer-to-Peer"], "ans": 0, "exp": "Symmetric Multiprocessing (SMP) uses shared physical RAM across processors."},
+    {"id": 4, "q": "4. What is the formula for speedup S(p) given execution time T1 on 1 processor and Tp on p processors?", "opts": ["S(p) = T1 * Tp", "S(p) = T1 / Tp", "S(p) = Tp / T1", "S(p) = T1 + Tp"], "ans": 1, "exp": "Speedup is defined as execution time on 1 core divided by execution time on p cores."},
 
     # Set 2
-    {"q": "5. In a 3-tier architecture, where is the primary business logic implemented?", "opts": ["Presentation Layer (Tier 1)", "Application Layer (Tier 2)", "Data Layer (Tier 3)", "Client Web Browser"], "ans": 1, "exp": "Tier 2 contains the application servers executing business logic and rules."},
-    {"q": "6. Which layer in a 3-tier system directly handles database persistence?", "opts": ["Presentation Layer", "Logic Layer", "Data Layer (Tier 3)", "Session Layer"], "ans": 2, "exp": "Tier 3 consists of RDBMS or cloud storage storing persistent data."},
-    {"q": "7. What is a key security advantage of 3-tier architecture over 2-tier architecture?", "opts": ["No passwords needed", "Database is isolated on a private subnet behind app servers", "Client handles encryption", "Removes TCP/IP"], "ans": 1, "exp": "The database is shielded from direct public internet calls by Tier 2 servers."},
-    {"q": "8. Web service registration and lookup in SOAP architectures uses which specification?", "opts": ["WSDL", "UDDI", "REST", "JSON"], "ans": 1, "exp": "Universal Description, Discovery and Integration (UDDI) acts as the service registry."},
+    {"id": 5, "q": "5. In a 3-tier architecture, where is the primary business logic implemented?", "opts": ["Presentation Layer (Tier 1)", "Application Layer (Tier 2)", "Data Layer (Tier 3)", "Client Web Browser"], "ans": 1, "exp": "Tier 2 contains the application servers executing business logic and rules."},
+    {"id": 6, "q": "6. Which layer in a 3-tier system directly handles database persistence?", "opts": ["Presentation Layer", "Logic Layer", "Data Layer (Tier 3)", "Session Layer"], "ans": 2, "exp": "Tier 3 consists of RDBMS or cloud storage storing persistent data."},
+    {"id": 7, "q": "7. What is a key security advantage of 3-tier architecture over 2-tier architecture?", "opts": ["No passwords needed", "Database is isolated on a private subnet behind app servers", "Client handles encryption", "Removes TCP/IP"], "ans": 1, "exp": "The database is shielded from direct public internet calls by Tier 2 servers."},
+    {"id": 8, "q": "8. Web service registration and lookup in SOAP architectures uses which specification?", "opts": ["WSDL", "UDDI", "REST", "JSON"], "ans": 1, "exp": "Universal Description, Discovery and Integration (UDDI) acts as the service registry."},
 
     # Set 3
-    {"q": "9. What causes the Lost Update Problem in concurrent applications?", "opts": ["Unencrypted traffic", "Two transactions reading identical data and both writing back", "Network disconnection", "Deadlock avoidance"], "ans": 1, "exp": "The second transaction overwrites the first transaction's modifications."},
-    {"q": "10. Which locking strategy acquires exclusive locks on data before reading or updating?", "opts": ["Optimistic Concurrency Control", "Pessimistic Locking", "Round Robin", "Bully Algorithm"], "ans": 1, "exp": "Pessimistic locking uses SELECT ... FOR UPDATE to lock rows during reading."},
-    {"q": "11. A section of code that accesses shared resources and must not be concurrently executed is called:", "opts": ["Critical Section", "Deadlock Zone", "Parallel Region", "Buffer Queue"], "ans": 0, "exp": "Critical Sections require mutual exclusion to prevent data corruption."},
-    {"q": "12. Optimistic Concurrency Control handles conflicts using:", "opts": ["Exclusive locks", "Version numbers or timestamps", "Process termination", "CPU quantum"], "ans": 1, "exp": "Optimistic control checks if version numbers changed before committing."},
+    {"id": 9, "q": "9. What causes the Lost Update Problem in concurrent applications?", "opts": ["Unencrypted traffic", "Two transactions reading identical data and both writing back", "Network disconnection", "Deadlock avoidance"], "ans": 1, "exp": "The second transaction overwrites the first transaction's modifications."},
+    {"id": 10, "q": "10. Which locking strategy acquires exclusive locks on data before reading or updating?", "opts": ["Optimistic Concurrency Control", "Pessimistic Locking", "Round Robin", "Bully Algorithm"], "ans": 1, "exp": "Pessimistic locking uses SELECT ... FOR UPDATE to lock rows during reading."},
+    {"id": 11, "q": "11. A section of code that accesses shared resources and must not be concurrently executed is called:", "opts": ["Critical Section", "Deadlock Zone", "Parallel Region", "Buffer Queue"], "ans": 0, "exp": "Critical Sections require mutual exclusion to prevent data corruption."},
+    {"id": 12, "q": "12. Optimistic Concurrency Control handles conflicts using:", "opts": ["Exclusive locks", "Version numbers or timestamps", "Process termination", "CPU quantum"], "ans": 1, "exp": "Optimistic control checks if version numbers changed before committing."},
 
     # Set 4
-    {"q": "13. How many Coffman conditions must hold simultaneously for a deadlock to exist?", "opts": ["At least 1", "Exactly 2", "Exactly 3", "All 4"], "ans": 3, "exp": "All 4 Coffman conditions must hold simultaneously for a deadlock to occur."},
-    {"q": "14. Which deadlock strategy breaks a Coffman condition structurally before execution?", "opts": ["Deadlock Avoidance", "Deadlock Prevention", "Deadlock Recovery", "Victim Selection"], "ans": 1, "exp": "Prevention enforces rules (e.g. global resource ordering) to eliminate a condition."},
-    {"q": "15. Dijkstra's Banker's Algorithm is an example of which deadlock handling approach?", "opts": ["Deadlock Prevention", "Deadlock Avoidance", "Deadlock Detection", "Preemption"], "ans": 1, "exp": "Avoidance dynamically evaluates requests to guarantee the system stays in a Safe State."},
-    {"q": "16. Circular Wait is eliminated by enforcing which resource policy?", "opts": ["Preemption", "Total numeric ordering on resource requests", "Unlimited RAM", "Time slicing"], "ans": 1, "exp": "Requiring processes to request resources in strictly increasing order prevents cycles."},
+    {"id": 13, "q": "13. How many Coffman conditions must hold simultaneously for a deadlock to exist?", "opts": ["At least 1", "Exactly 2", "Exactly 3", "All 4"], "ans": 3, "exp": "All 4 Coffman conditions must hold simultaneously for a deadlock to occur."},
+    {"id": 14, "q": "14. Which deadlock strategy breaks a Coffman condition structurally before execution?", "opts": ["Deadlock Avoidance", "Deadlock Prevention", "Deadlock Recovery", "Victim Selection"], "ans": 1, "exp": "Prevention enforces rules (e.g. global resource ordering) to eliminate a condition."},
+    {"id": 15, "q": "15. Dijkstra's Banker's Algorithm is an example of which deadlock handling approach?", "opts": ["Deadlock Prevention", "Deadlock Avoidance", "Deadlock Detection", "Preemption"], "ans": 1, "exp": "Avoidance dynamically evaluates requests to guarantee the system stays in a Safe State."},
+    {"id": 16, "q": "16. Circular Wait is eliminated by enforcing which resource policy?", "opts": ["Preemption", "Total numeric ordering on resource requests", "Unlimited RAM", "Time slicing"], "ans": 1, "exp": "Requiring processes to request resources in strictly increasing order prevents cycles."},
 
     # Set 5
-    {"q": "17. Which scheduling algorithm guarantees zero starvation for all processes?", "opts": ["Shortest Job First (SJF)", "Priority Scheduling", "Round Robin (RR)", "LIFO"], "ans": 2, "exp": "Round Robin assigns a fixed quantum in FIFO order, preventing starvation."},
-    {"q": "18. Shortest Job First (SJF) scheduling is optimal for minimizing:", "opts": ["CPU utilization", "Average waiting time", "Context switches", "Starvation risk"], "ans": 1, "exp": "SJF mathematically yields the lowest average waiting time for a set of processes."},
-    {"q": "19. Preemptive version of Shortest Job First is known as:", "opts": ["Round Robin", "Shortest Remaining Time First (SRTF)", "FCFS", "Multilevel Queue"], "ans": 1, "exp": "SRTF preempts the running process if a new process arrives with shorter remaining time."},
-    {"q": "20. What is a major drawback of a very small time quantum in Round Robin scheduling?", "opts": ["Starvation", "High context-switching overhead", "Deadlock", "Long wait times"], "ans": 1, "exp": "Too small a quantum causes the CPU to waste time performing context switches."},
+    {"id": 17, "q": "17. Which scheduling algorithm guarantees zero starvation for all processes?", "opts": ["Shortest Job First (SJF)", "Priority Scheduling", "Round Robin (RR)", "LIFO"], "ans": 2, "exp": "Round Robin assigns a fixed quantum in FIFO order, preventing starvation."},
+    {"id": 18, "q": "18. Shortest Job First (SJF) scheduling is optimal for minimizing:", "opts": ["CPU utilization", "Average waiting time", "Context switches", "Starvation risk"], "ans": 1, "exp": "SJF mathematically yields the lowest average waiting time for a set of processes."},
+    {"id": 19, "q": "19. Preemptive version of Shortest Job First is known as:", "opts": ["Round Robin", "Shortest Remaining Time First (SRTF)", "FCFS", "Multilevel Queue"], "ans": 1, "exp": "SRTF preempts the running process if a new process arrives with shorter remaining time."},
+    {"id": 20, "q": "20. What is a major drawback of a very small time quantum in Round Robin scheduling?", "opts": ["Starvation", "High context-switching overhead", "Deadlock", "Long wait times"], "ans": 1, "exp": "Too small a quantum causes the CPU to waste time performing context switches."},
 
     # Set 6
-    {"q": "21. A Distributed Operating System (DOS) provides users with:", "opts": ["Multiple login prompts", "A single-system image", "Manual node IP configuration", "No file sharing"], "ans": 1, "exp": "DOS hides physical node separation, presenting a unified single system image."},
-    {"q": "22. Accessing local and remote resources using identical operations is called:", "opts": ["Location Transparency", "Access Transparency", "Failure Transparency", "Replication Transparency"], "ans": 1, "exp": "Access transparency masks differences in data representation and resource access."},
-    {"q": "23. Concealing resource physical network location from users is known as:", "opts": ["Location Transparency", "Migration Transparency", "Concurrency Transparency", "Relocation Transparency"], "ans": 0, "exp": "Location transparency allows accessing resources without knowing their IP or server path."},
-    {"q": "24. Which transport protocol provides reliable, ordered stream delivery with flow control?", "opts": ["UDP", "IP", "TCP", "ICMP"], "ans": 2, "exp": "Transmission Control Protocol (TCP) guarantees reliable, in-order delivery."},
+    {"id": 21, "q": "21. A Distributed Operating System (DOS) provides users with:", "opts": ["Multiple login prompts", "A single-system image", "Manual node IP configuration", "No file sharing"], "ans": 1, "exp": "DOS hides physical node separation, presenting a unified single system image."},
+    {"id": 22, "q": "22. Accessing local and remote resources using identical operations is called:", "opts": ["Location Transparency", "Access Transparency", "Failure Transparency", "Replication Transparency"], "ans": 1, "exp": "Access transparency masks differences in data representation and resource access."},
+    {"id": 23, "q": "23. Concealing resource physical network location from users is known as:", "opts": ["Location Transparency", "Migration Transparency", "Concurrency Transparency", "Relocation Transparency"], "ans": 0, "exp": "Location transparency allows accessing resources without knowing their IP or server path."},
+    {"id": 24, "q": "24. Which transport protocol provides reliable, ordered stream delivery with flow control?", "opts": ["UDP", "IP", "TCP", "ICMP"], "ans": 2, "exp": "Transmission Control Protocol (TCP) guarantees reliable, in-order delivery."},
 
     # Set 7
-    {"q": "25. Which object acts as the client-side proxy in Java RMI?", "opts": ["Skeleton", "Stub", "Registry", "Dispatcher"], "ans": 1, "exp": "The Stub intercepts client calls, marshals arguments, and transmits network requests."},
-    {"q": "26. Methods defined in a Java RMI Remote Interface MUST declare which exception?", "opts": ["NullPointerException", "RemoteException", "ClassNotFoundException", "IOException"], "ans": 1, "exp": "Every remote method must throw java.rmi.RemoteException to handle network faults."},
-    {"q": "27. In Java RMI, how are non-remote serializable object arguments passed?", "opts": ["By Reference", "By Value (Deep Copy)", "By Address", "By Pointer"], "ans": 1, "exp": "Non-remote objects implementing Serializable are copied and passed by value."},
-    {"q": "28. What RMI invocation semantic guarantees 0 or 1 execution using reply history filtering?", "opts": ["Maybe", "At-Least-Once", "At-Most-Once", "Exactly-Never"], "ans": 2, "exp": "At-Most-Once filters duplicates at the server to execute at most once."},
+    {"id": 25, "q": "25. Which object acts as the client-side proxy in Java RMI?", "opts": ["Skeleton", "Stub", "Registry", "Dispatcher"], "ans": 1, "exp": "The Stub intercepts client calls, marshals arguments, and transmits network requests."},
+    {"id": 26, "q": "26. Methods defined in a Java RMI Remote Interface MUST declare which exception?", "opts": ["NullPointerException", "RemoteException", "ClassNotFoundException", "IOException"], "ans": 1, "exp": "Every remote method must throw java.rmi.RemoteException to handle network faults."},
+    {"id": 27, "q": "27. In Java RMI, how are non-remote serializable object arguments passed?", "opts": ["By Reference", "By Value (Deep Copy)", "By Address", "By Pointer"], "ans": 1, "exp": "Non-remote objects implementing Serializable are copied and passed by value."},
+    {"id": 28, "q": "28. What RMI invocation semantic guarantees 0 or 1 execution using reply history filtering?", "opts": ["Maybe", "At-Least-Once", "At-Most-Once", "Exactly-Never"], "ans": 2, "exp": "At-Most-Once filters duplicates at the server to execute at most once."},
 
     # Set 8
-    {"q": "29. In the Bully Election Algorithm, which process becomes the new leader upon crash detection?", "opts": ["Process with the smallest ID", "Process with the highest ID", "Random process", "First process to respond"], "ans": 1, "exp": "The Bully algorithm elects the active process with the highest process ID."},
-    {"q": "30. The Two-Phase Commit Protocol (2PC) guarantees which property in distributed transactions?", "opts": ["Eventual Consistency", "Atomicity (All-or-Nothing commit)", "High Availability", "Zero Latency"], "ans": 1, "exp": "2PC ensures all participating nodes either commit or abort the transaction together."},
-    {"q": "31. Lamport Logical Clocks use logical timestamps to define which relationship between events?", "opts": ["Absolute Universal Time", "Happened-Before relation (->)", "CPU Clock Speed", "Round Trip Time"], "ans": 1, "exp": "Lamport timestamps establish partial ordering based on causality (a -> b)."},
-    {"q": "32. In 2PC, what action does the Coordinator take if any participant responds with VOTE_ABORT?", "opts": ["Commit anyway", "Sends GLOBAL_ABORT to all nodes", "Waits 1 hour", "Terminates coordinator"], "ans": 1, "exp": "If any node votes abort, the coordinator enforces a global abort across all nodes."},
+    {"id": 29, "q": "29. In the Bully Election Algorithm, which process becomes the new leader upon crash detection?", "opts": ["Process with the smallest ID", "Process with the highest ID", "Random process", "First process to respond"], "ans": 1, "exp": "The Bully algorithm elects the active process with the highest process ID."},
+    {"id": 30, "q": "30. The Two-Phase Commit Protocol (2PC) guarantees which property in distributed transactions?", "opts": ["Eventual Consistency", "Atomicity (All-or-Nothing commit)", "High Availability", "Zero Latency"], "ans": 1, "exp": "2PC ensures all participating nodes either commit or abort the transaction together."},
+    {"id": 31, "q": "31. Lamport Logical Clocks use logical timestamps to define which relationship between events?", "opts": ["Absolute Universal Time", "Happened-Before relation (->)", "CPU Clock Speed", "Round Trip Time"], "ans": 1, "exp": "Lamport timestamps establish partial ordering based on causality (a -> b)."},
+    {"id": 32, "q": "32. In 2PC, what action does the Coordinator take if any participant responds with VOTE_ABORT?", "opts": ["Commit anyway", "Sends GLOBAL_ABORT to all nodes", "Waits 1 hour", "Terminates coordinator"], "ans": 1, "exp": "If any node votes abort, the coordinator enforces a global abort across all nodes."},
 
     # Set 9
-    {"q": "33. Cloud service model providing virtualized compute, raw storage, and networking is:", "opts": ["SaaS", "PaaS", "IaaS", "FaaS"], "ans": 2, "exp": "Infrastructure as a Service (IaaS) supplies raw virtual machines and storage."},
-    {"q": "34. Verifying the identity of a user or system is defined as:", "opts": ["Authorization", "Authentication", "Encryption", "Auditing"], "ans": 1, "exp": "Authentication verifies WHO a user is (e.g. passwords, 2FA)."},
-    {"q": "35. Technology enabling multiple virtual machines with distinct OS instances on one physical host:", "opts": ["Hypervisor / Virtualization", "Compiler", "Load Balancer", "DNS"], "ans": 0, "exp": "Hypervisors (KVM, VMware) manage virtual machine hardware abstractions."},
-    {"q": "36. Active Redundancy for fault tolerance differs from Passive Redundancy because:", "opts": ["All redundant nodes process requests in parallel", "Only 1 node is powered on", "Backup node takes 2 hours", "No backups used"], "ans": 0, "exp": "Active redundancy processes requests across all nodes simultaneously for instant failover."},
+    {"id": 33, "q": "33. Cloud service model providing virtualized compute, raw storage, and networking is:", "opts": ["SaaS", "PaaS", "IaaS", "FaaS"], "ans": 2, "exp": "Infrastructure as a Service (IaaS) supplies raw virtual machines and storage."},
+    {"id": 34, "q": "34. Verifying the identity of a user or system is defined as:", "opts": ["Authorization", "Authentication", "Encryption", "Auditing"], "ans": 1, "exp": "Authentication verifies WHO a user is (e.g. passwords, 2FA)."},
+    {"id": 35, "q": "35. Technology enabling multiple virtual machines with distinct OS instances on one physical host:", "opts": ["Hypervisor / Virtualization", "Compiler", "Load Balancer", "DNS"], "ans": 0, "exp": "Hypervisors (KVM, VMware) manage virtual machine hardware abstractions."},
+    {"id": 36, "q": "36. Active Redundancy for fault tolerance differs from Passive Redundancy because:", "opts": ["All redundant nodes process requests in parallel", "Only 1 node is powered on", "Backup node takes 2 hours", "No backups used"], "ans": 0, "exp": "Active redundancy processes requests across all nodes simultaneously for instant failover."},
 
     # Set 10
-    {"q": "37. Is appending data to a file an idempotent operation?", "opts": ["Yes", "No", "Only on Linux", "Only with TCP"], "ans": 1, "exp": "No. Appending extends file length on each execution. Writing to a fixed offset IS idempotent."},
-    {"q": "38. Why does CORBA CDR lack explicit data-type tags compared to XML?", "opts": ["XML is faster", "CORBA relies on pre-compiled IDL files shared by client and server", "CDR is text based", "XML has no tags"], "ans": 1, "exp": "Shared IDL schemas allow CORBA CDR to transmit compact binary data without type tags."},
-    {"q": "39. What is the role of the RMI Registry in Java RMI applications?", "opts": ["Executes business logic", "Bootstrap naming lookup mapping strings to remote object stubs", "Encrypts network traffic", "Allocates CPU RAM"], "ans": 1, "exp": "The RMI Registry maps logical names (e.g. 'ComputeService') to remote stubs."},
-    {"q": "40. In Ricart-Agrawala Mutual Exclusion Algorithm, requests are ordered using:", "opts": ["IP Addresses", "Lamport Timestamps & Process IDs", "CPU burst times", "File sizes"], "ans": 1, "exp": "Ricart-Agrawala uses Lamport timestamps to grant critical section access fairly."}
+    {"id": 37, "q": "37. Is appending data to a file an idempotent operation?", "opts": ["Yes", "No", "Only on Linux", "Only with TCP"], "ans": 1, "exp": "No. Appending extends file length on each execution. Writing to a fixed offset IS idempotent."},
+    {"id": 38, "q": "38. Why does CORBA CDR lack explicit data-type tags compared to XML?", "opts": ["XML is faster", "CORBA relies on pre-compiled IDL files shared by client and server", "CDR is text based", "XML has no tags"], "ans": 1, "exp": "Shared IDL schemas allow CORBA CDR to transmit compact binary data without type tags."},
+    {"id": 39, "q": "39. What is the role of the RMI Registry in Java RMI applications?", "opts": ["Executes business logic", "Bootstrap naming lookup mapping strings to remote object stubs", "Encrypts network traffic", "Allocates CPU RAM"], "ans": 1, "exp": "The RMI Registry maps logical names (e.g. 'ComputeService') to remote stubs."},
+    {"id": 40, "q": "40. In Ricart-Agrawala Mutual Exclusion Algorithm, requests are ordered using:", "opts": ["IP Addresses", "Lamport Timestamps & Process IDs", "CPU burst times", "File sizes"], "ans": 1, "exp": "Ricart-Agrawala uses Lamport timestamps to grant critical section access fairly."}
 ]
 
 # ----------------------------------------------------
@@ -536,9 +521,9 @@ elif page == "8. Distributed Coordination Algorithms (2PC, Election, Clocks)":
 
     with t_algo3:
         st.subheader("Lamport Logical Clocks")
-        st.write("Establishes a happened-before relation ($a \rightarrow b$) without synchronized physical clocks.")
+        st.write("Establishes a happened-before relation ($a \\rightarrow b$) without synchronized physical clocks.")
         st.write("• Before executing an event, process increments local clock: $L = L + 1$.")
-        st.write(r"• On receiving message with timestamp $t$: $L = \max(L, t) + 1$.")
+        st.write("• On receiving message with timestamp $t$: $L = \\max(L, t) + 1$.")
 
 # ----------------------------------------------------
 # PAGE 9: TEXTBOOK QA
@@ -576,11 +561,11 @@ elif page == "10. STU 2023/2024 End of Semester Exam Solutions":
         st.write("Parallel: single machine, shared memory, bus. Distributed: multiple machines, disjoint RAM, network sockets.")
 
 # ----------------------------------------------------
-# PAGE 11: 40-QUESTION PRACTICE QUIZ ENGINE
+# PAGE 11: 40-QUESTION PRACTICE QUIZ ENGINE (SESSION STATE FIXED)
 # ----------------------------------------------------
 elif page == "11. Examination Practice Quiz Engine (10 Sets / 40 MCQs)":
     st.title("Examination Practice Quiz Engine")
-    st.write("Select a Quiz Set or generate a Random Quiz from the 40-question course bank:")
+    st.write("Select a fixed Quiz Set or generate a Random Quiz from the 40-question course bank:")
 
     quiz_mode = st.selectbox(
         "Select Quiz Set:",
@@ -599,8 +584,20 @@ elif page == "11. Examination Practice Quiz Engine (10 Sets / 40 MCQs)":
         ]
     )
 
-    if "Random" in quiz_mode:
-        selected_questions = random.sample(MCQ_BANK, 10)
+    is_random = "Random" in quiz_mode
+
+    # Handle Random Questions in Session State to prevent reshuffling on click
+    if is_random:
+        c_btn1, c_btn2 = st.columns([3, 1])
+        with c_btn2:
+            if st.button("Generate New Random Quiz Set"):
+                st.session_state.random_quiz_questions = random.sample(MCQ_BANK, 10)
+                st.rerun()
+
+        if "random_quiz_questions" not in st.session_state or len(st.session_state.random_quiz_questions) != 10:
+            st.session_state.random_quiz_questions = random.sample(MCQ_BANK, 10)
+        
+        selected_questions = st.session_state.random_quiz_questions
     else:
         set_idx = int(quiz_mode.split(":")[0].replace("Set ", "")) - 1
         start_i = set_idx * 4
@@ -610,11 +607,15 @@ elif page == "11. Examination Practice Quiz Engine (10 Sets / 40 MCQs)":
     user_answers = {}
 
     for i, item in enumerate(selected_questions):
-        st.markdown(f"#### {item['q']}")
+        st.markdown(f"#### Question {i+1}: {item['q']}")
+        
+        # Unique session state key per question ID and set mode
+        key_id = f"opt_selected_{quiz_mode}_{item['id']}_{i}"
+        
         user_answers[i] = st.radio(
-            f"Select Answer for Question {i+1}:",
+            f"Select your option for Question {i+1}:",
             item['opts'],
-            key=f"q_{set_idx if 'Set' in quiz_mode else 'rand'}_{i}"
+            key=key_id
         )
         st.write("")
 
@@ -627,9 +628,9 @@ elif page == "11. Examination Practice Quiz Engine (10 Sets / 40 MCQs)":
             user_choice_idx = item['opts'].index(user_answers[i])
             if user_choice_idx == item['ans']:
                 score += 1
-                st.success(f"Q{i+1}: Correct. Choice: {user_answers[i]}")
+                st.success(f"Q{i+1}: Correct. Your Choice: {user_answers[i]}")
             else:
-                st.error(f"Q{i+1}: Incorrect. Your Choice: {user_answers[i]} | Correct Choice: {item['opts'][item['ans']]}")
+                st.error(f"Q{i+1}: Incorrect. Your Choice: {user_answers[i]} | Correct Answer: {item['opts'][item['ans']]}")
             st.info(f"Explanation: {item['exp']}")
             st.write("---")
 
